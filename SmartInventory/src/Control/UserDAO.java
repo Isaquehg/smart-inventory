@@ -1,6 +1,7 @@
 package Control;
 
-//Modificar futuramente!
+//Modificar futuramente para nomeModelDAO!
+//Criar um DAO para cada Model
 import Model.User;
 
 import java.sql.SQLException;
