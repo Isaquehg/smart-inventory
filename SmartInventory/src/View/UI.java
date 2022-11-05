@@ -15,7 +15,6 @@ public class UI {
     }
 
     //Cadastro de novos produtos
-    //Deixar essa função com retorno de um array pra poder utilizar MVC????
     private void cadastroProduto(){
         String nomeProduto = JOptionPane.showInputDialog("Insira o nome do produto: ");
 
@@ -29,10 +28,6 @@ public class UI {
     }
 
     //Inserção de estoque junto com localizacao e prateleira
-    //Deixar essa função com retorno de um array pra poder utilizar MVC????
-    //Aí cada posição desse array seria uma dessas informacoes abaixo
-    //Tipo: array[0] = produtoInserirID
-    //Depois passaríamos esse array pra uma classe no Control p processá-la
     private void inserirEstoque(){
         String produtoInserirIDString = JOptionPane.showInputDialog("Escolha o produto a inserir estoque: ");
         int produtoInserirID = Integer.parseInt(produtoInserirIDString);
@@ -46,8 +41,8 @@ public class UI {
         String prateleiraIDInserirProdutoString = JOptionPane.showInputDialog("ID prateleira a inserir esse produto: ");
         int prateleiraIDInserirProduto = Integer.parseInt(prateleiraIDInserirProdutoString);
     }
-    private int removerEstoque(){
+    private void removerEstoque(){
         String produtoIDExcluirString = JOptionPane.showInputDialog("ID do produto a excluir: ");
-        return Integer.parseInt(produtoIDExcluirString);
+        int produtoIDExcluir = Integer.parseInt(produtoIDExcluirString);
     }
 }

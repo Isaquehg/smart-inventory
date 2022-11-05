@@ -8,10 +8,9 @@ package Model;
  */
 public class Armazem {
     private int idArmazem;
-    private int localizacao;
+    private Funcionario[] funcionarios = new Funcionario[100];
 
-    Armazem(int idArmazem, int localizacao){
+    Armazem(int idArmazem){
         this.idArmazem = idArmazem;
-        this.localizacao = localizacao;
     }
 }
