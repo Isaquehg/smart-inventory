@@ -9,13 +9,14 @@ package Model;
 public class Armazem {
     private int idArmazem;
     private String endereco;
+    private int idProprietario;
+    private int idProduto;
     private Funcionario[] funcionarios = new Funcionario[100];
-    private Produto[] produtos = new Produto[1000];
 
-    Armazem(int idArmazem, String endereco, Funcionario[] funcionarios, Produto[] produtos){
+    public Armazem(int idArmazem, String endereco, int idProprietario, int idProduto){
         this.idArmazem = idArmazem;
         this.endereco = endereco;
-        this.funcionarios = funcionarios;
-        this.produtos = produtos;
+        this.idProprietario = idProprietario;
+        this.idProduto = idProduto;
     }
 }

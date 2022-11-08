@@ -6,20 +6,21 @@ package Model;
  * @version 1.0
  * @since 11/03/2022
  */
-public abstract class Produto {
+public class Produto {
     private int idProduto;
     private String nome;
     private int peso;
     private String categoria;
     private int quantidade;
+    private int idArmazem;
     private Armazem[] armazens = new Armazem[25];
 
-    Produto(int idProduto, String nome, int peso, String categoria, int quantidade, Armazem[] armazens){
+    public Produto(int idProduto, String nome, String categoria, int peso, int quantidade, int idArmazem){
         this.idProduto = idProduto;
         this.nome = nome;
         this.peso = peso;
         this.categoria = categoria;
         this.quantidade = quantidade;
-        this.armazens = armazens;
+        this.idArmazem = idArmazem;
     }
 }

@@ -1,6 +1,8 @@
 package Control;
 
 import Model.Produto;
+import Model.Armazem;
+import Model.Funcionario;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,10 +27,10 @@ public class ProdutoDAO extends ConnectionDAO{
         try {
             pst = con.prepareStatement(sql);
             pst.setString(1, produto.getNome());
-            pst.setString(3, produto.getCategoria());
-            pst.setInt(2, produto.getPeso());
-            pst.setInt(3, 0);//Zerar o estoque quando cadastrar
-            pst.setInt(3, produto.getIDArmazem());//revisar
+            pst.setString(2, produto.getCategoria());
+            pst.setInt(3, produto.getPeso());
+            pst.setInt(4, 0);//Zerar o estoque quando cadastrar
+            pst.setInt(5, produto.getIDArmazem());//revisar
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -133,12 +135,13 @@ public class ProdutoDAO extends ConnectionDAO{
 
             while (rs.next()) {
 
-                Produto produtoAux = new Produto(rs.getString("nome"), rs.getString("categoria"), rs.getString("peso"), rs.getInt("quantidade"));
+                Produto produtoAux = new Produto(rs.getInt("idProduto"), rs.getString("nome"), rs.getString("categoria"), rs.getInt("peso"), rs.getInt("quantidade"), rs.getInt("idArmazem"));
 
                 System.out.println("Nome = " + produtoAux.getNome());
                 System.out.println("Categoria = " + produtoAux.getCategoria());
                 System.out.println("Peso = " + produtoAux.getPeso() + "kg");
                 System.out.println("Quantidade = " + produtoAux.getQuantidade());
+                System.out.println("ID Armazem = " + produtoAux.getIDArmazem());
 
                 System.out.println("--------------------------------");
 
