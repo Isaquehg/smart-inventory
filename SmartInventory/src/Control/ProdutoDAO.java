@@ -21,15 +21,14 @@ public class ProdutoDAO extends ConnectionDAO{
 
         connectToDB();
 
-        String sql = "INSERT INTO Produto (nome, peso, categoria, quantidade, armazem, prateleira) values(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Produto (nome, categoria, peso, quantidade, idArmazem) values(?, ?, ?, ?, ?)";
         try {
             pst = con.prepareStatement(sql);
             pst.setString(1, produto.getNome());
-            pst.setInt(2, produto.getPeso());
             pst.setString(3, produto.getCategoria());
-            pst.setInt(3, 0);//revisar
-            pst.setInt(3, produto.getArmazem());//revisar
-            pst.setInt(3, produto.getPrateleira());//revisar
+            pst.setInt(2, produto.getPeso());
+            pst.setInt(3, 0);//Zerar o estoque quando cadastrar
+            pst.setInt(3, produto.getIDArmazem());//revisar
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -51,7 +50,8 @@ public class ProdutoDAO extends ConnectionDAO{
     public boolean updateProduto(int id, Produto produto, int op) {
         connectToDB();
         String sql1 = "UPDATE Produto SET quantidade=? where id=?";
-        String sql2 = "UPDATE Produto SET nome=?, peso=?, categoria=?, localizacao=? where id=?";
+        String sql2 = "UPDATE Produto SET nome=?, peso=?, categoria=?, idArmazem=? where id=?";
+        //alterar estoque
         if(op == 0){
             try {
                 pst = con.prepareStatement(sql1);
@@ -71,13 +71,14 @@ public class ProdutoDAO extends ConnectionDAO{
                 }
             }
         }
+        //alterar dados do cadastro
         else if(op == 1){
             try {
                 pst = con.prepareStatement(sql2);
                 pst.setInt(1, produto.getNome());
-                pst.setInt(2, produto.getPeso());
                 pst.setInt(2, produto.getCategoria());
-                pst.setInt(2, produto.getLocalizacao());
+                pst.setInt(2, produto.getPeso());
+                pst.setInt(2, produto.getIDArmazem());
                 pst.execute();
                 sucesso = true;
             } catch (SQLException ex) {
@@ -96,7 +97,7 @@ public class ProdutoDAO extends ConnectionDAO{
     }
 
     //DELETE
-    public boolean deleteUser(int id) {
+    public boolean deleteProduto(int id) {
         connectToDB();
         String sql = "DELETE FROM Produto where id=?";
         try {
@@ -132,10 +133,13 @@ public class ProdutoDAO extends ConnectionDAO{
 
             while (rs.next()) {
 
-                Produto produtoAux = new Produto(rs.getString("nome"),rs.getString("peso"));
+                Produto produtoAux = new Produto(rs.getString("nome"), rs.getString("categoria"), rs.getString("peso"), rs.getInt("quantidade"));
 
                 System.out.println("Nome = " + produtoAux.getNome());
-                System.out.println("Peso = " + produtoAux.getPeso());
+                System.out.println("Categoria = " + produtoAux.getCategoria());
+                System.out.println("Peso = " + produtoAux.getPeso() + "kg");
+                System.out.println("Quantidade = " + produtoAux.getQuantidade());
+
                 System.out.println("--------------------------------");
 
                 produtos.add(produtoAux);
