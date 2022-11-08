@@ -12,16 +12,14 @@ public abstract class Produto {
     private int peso;
     private String categoria;
     private int quantidade;
-    private Armazem armazem;
-    private Prateleira[] prateleira = new Prateleira[25];
+    private Armazem[] armazens = new Armazem[25];
 
-    Produto(int idProduto, String nome, int peso, String categoria, int quantidade, Armazem armazem, Prateleira[] prateleira){
+    Produto(int idProduto, String nome, int peso, String categoria, int quantidade, Armazem[] armazens){
         this.idProduto = idProduto;
         this.nome = nome;
         this.peso = peso;
         this.categoria = categoria;
         this.quantidade = quantidade;
-        this.armazem = armazem;
-        this.prateleira = prateleira;
+        this.armazens = armazens;
     }
 }

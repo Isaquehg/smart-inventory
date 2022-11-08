@@ -27,7 +27,7 @@ public class UI {
         String categoriaProduto = JOptionPane.showInputDialog("Insira a categoria do produto: ");
     }
 
-    //Inserção de estoque junto com localizacao e prateleira
+    //Inserção de estoque junto com localizacao
     private void inserirEstoque(){
         String produtoInserirIDString = JOptionPane.showInputDialog("Escolha o produto a inserir estoque: ");
         int produtoInserirID = Integer.parseInt(produtoInserirIDString);
@@ -37,9 +37,6 @@ public class UI {
 
         String quantidadeInserirProdutoString = JOptionPane.showInputDialog("Quantidade a inserir desse produto: ");
         int quantidadeInserirProduto = Integer.parseInt(quantidadeInserirProdutoString);
-
-        String prateleiraIDInserirProdutoString = JOptionPane.showInputDialog("ID prateleira a inserir esse produto: ");
-        int prateleiraIDInserirProduto = Integer.parseInt(prateleiraIDInserirProdutoString);
     }
     private void removerEstoque(){
         String produtoIDExcluirString = JOptionPane.showInputDialog("ID do produto a excluir: ");
