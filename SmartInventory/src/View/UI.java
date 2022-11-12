@@ -131,7 +131,7 @@ public class UI {
         ProdutoDAO produto = new ProdutoDAO();
         ArrayList<Produto> produtosArmazem = produto.selectProduto();
         
-        //Mostrar dados desses produtos do armazem
+        //Mostrar dados desses produtos do armazem utilizando JTable
 
     }
 }
