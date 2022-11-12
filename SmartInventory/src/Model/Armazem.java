@@ -10,13 +10,11 @@ public class Armazem {
     private int idArmazem;
     private String endereco;
     private int idProprietario;
-    private int idProduto;
     private Funcionario[] funcionarios = new Funcionario[100];
 
-    public Armazem(int idArmazem, String endereco, int idProprietario, int idProduto){
+    public Armazem(int idArmazem, String endereco, int idProprietario){
         this.idArmazem = idArmazem;
         this.endereco = endereco;
         this.idProprietario = idProprietario;
-        this.idProduto = idProduto;
     }
 }

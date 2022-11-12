@@ -3,6 +3,7 @@ package Control;
 import Model.Produto;
 import Model.Armazem;
 import Model.Funcionario;
+import Control.ArmazemHasProduto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,19 +20,23 @@ public class ProdutoDAO extends ConnectionDAO{
     boolean sucesso = false; //Para saber se funcionou
 
     //INSERT
-    public boolean createProduto(Produto produto) {
-
+    public boolean createProduto(Produto produto, Armazem armazem, ArmazemHasProduto armazemHasProduto) {
         connectToDB();
 
-        String sql = "INSERT INTO Produto (nome, categoria, peso, quantidade, idArmazem) values(?, ?, ?, ?, ?)";
+        String sqlP = "INSERT INTO Produto (idProduto, nome, categoria, peso, quantidade) VALUES(?, ?, ?, ?, ?)";
         try {
-            pst = con.prepareStatement(sql);
-            pst.setString(1, produto.getNome());
-            pst.setString(2, produto.getCategoria());
-            pst.setInt(3, produto.getPeso());
-            pst.setInt(4, 0);//Zerar o estoque quando cadastrar
-            pst.setInt(5, produto.getIDArmazem());//revisar
+            //Tabela Produto
+            pst = con.prepareStatement(sqlP);
+            pst.setInt(1, produto.getID());
+            pst.setString(2, produto.getNome());
+            pst.setString(3, produto.getCategoria());
+            pst.setInt(4, produto.getPeso());
+            pst.setInt(5, 0);//Zerar o estoque quando cadastrar
             pst.execute();
+
+            //Passando idProduto para atualização da tabela ArmazemHasProduto
+            armazemHasProduto.updateAhasP(armazem.getID(), produto.getID());
+
             sucesso = true;
         } catch (SQLException exc) {
             System.out.println("Erro: " + exc.getMessage());
@@ -73,7 +78,7 @@ public class ProdutoDAO extends ConnectionDAO{
                 }
             }
         }
-        //alterar dados do cadastro
+        //alterar dados cadastrais
         else if(op == 1){
             try {
                 pst = con.prepareStatement(sql2);
@@ -136,7 +141,8 @@ public class ProdutoDAO extends ConnectionDAO{
             while (rs.next()) {
 
                 Produto produtoAux = new Produto(rs.getInt("idProduto"), rs.getString("nome"), rs.getString("categoria"), rs.getInt("peso"), rs.getInt("quantidade"), rs.getInt("idArmazem"));
-
+                
+                //Retirar print e enviar dados para UI
                 System.out.println("Nome = " + produtoAux.getNome());
                 System.out.println("Categoria = " + produtoAux.getCategoria());
                 System.out.println("Peso = " + produtoAux.getPeso() + "kg");

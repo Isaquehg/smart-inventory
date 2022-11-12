@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class FuncionarioDAO extends ConnectionDAO{
     //DAO - Data Access Object
-    boolean sucesso = false; //Para saber se funcionou
+    boolean sucesso = false;
 
     //INSERT
     public boolean createArmazem(Funcionario funcionario) {
@@ -41,7 +41,7 @@ public class FuncionarioDAO extends ConnectionDAO{
     //UPDATE
     public boolean updateFuncionario(int id, Funcionario funcionario) {
         connectToDB();
-        String sql1 = "UPDATE Funcionario SET nome=?, cpf=?, idArmazem=? where id=?";
+        String sql1 = "UPDATE Funcionario SET nome=?, cpf=?, Armazem_idArmazem=? where id=?";
         //alterar estoque
         try {
             pst = con.prepareStatement(sql1);
@@ -89,10 +89,10 @@ public class FuncionarioDAO extends ConnectionDAO{
 
     //SELECT
     //Retorna apenas endereco e proprietario do armazem
-    public ArrayList<Funcionario> selectFuncionario(int id) {
+    public ArrayList<Funcionario> selectFuncionario() {
         ArrayList<Funcionario> funcionarios = new ArrayList<>();
         connectToDB();
-        String sql = "SELECT noeme, cpf, idArmazem FROM Funcionario";
+        String sql = "SELECT * FROM Funcionario";
 
         try {
             st = con.createStatement();
@@ -102,11 +102,13 @@ public class FuncionarioDAO extends ConnectionDAO{
 
             while (rs.next()) {
 
-                Funcionario funcionarioAux = new Funcionario(rs.getString("nome"), rs.getString("cpf"), rs.getInt("idArmazem"));
+                Funcionario funcionarioAux = new Funcionario(rs.getInt("idFuncionario"), rs.getString("nome"), rs.getString("cpf"), rs.getInt("Armazem_idArmazem"));
 
+                //Passar print para UI
+                System.out.println("ID = " + funcionarioAux.getIDProprietario());
                 System.out.println("Nome = " + funcionarioAux.getNome());
-                System.out.println("Proprietario = " + funcionarioAux.getCpf());
-                System.out.println("Proprietario = " + funcionarioAux.getIDArmazem());
+                System.out.println("CPF = " + funcionarioAux.getCpf());
+                System.out.println("ID Armazem = " + funcionarioAux.getIDArmazem());
 
                 System.out.println("--------------------------------");
 

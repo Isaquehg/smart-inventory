@@ -12,15 +12,14 @@ public class ArmazemDAO extends ConnectionDAO{
 
     //INSERT
     public boolean createArmazem(Armazem armazem) {
-
         connectToDB();
 
-        String sql = "INSERT INTO Armazem (endereco, idProprietario, idProduto) values(?, ?, ?)";
+        String sql = "INSERT INTO Armazem (idArmazem, endereco, Proprietario_idProprietario) values(?, ?, ?)";
         try {
             pst = con.prepareStatement(sql);
-            pst.setString(1, armazem.getendereco());
-            pst.setInt(2, armazem.getIDProprietario());
-            pst.setInt(3, armazem.getIDProdutos());
+            pst.setString(1, armazem.getIDArmazem());
+            pst.setInt(2, armazem.getEndereco());
+            pst.setInt(3, armazem.getIDProprietario());
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -40,11 +39,11 @@ public class ArmazemDAO extends ConnectionDAO{
     //UPDATE
     public boolean updateArmazem(int id, Armazem armazem) {
         connectToDB();
-        String sql1 = "UPDATE Armazem SET endereco=?, idProprietario=? where id=?";
+        String sql1 = "UPDATE Armazem SET endereco=?, Proprietario_idProprietario=? where idArmazem=?";
         //alterar estoque
         try {
             pst = con.prepareStatement(sql1);
-            pst.setString(1, armazem.getendereco());
+            pst.setString(1, armazem.getEndereco());
             pst.setInt(2, armazem.getIDProprietario());
             pst.execute();
             sucesso = true;
@@ -65,7 +64,7 @@ public class ArmazemDAO extends ConnectionDAO{
     //DELETE
     public boolean deleteArmazem(int id) {
         connectToDB();
-        String sql = "DELETE FROM Armazem where id=?";
+        String sql = "DELETE FROM Armazem where idArmazem=?";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1, id);
@@ -86,8 +85,8 @@ public class ArmazemDAO extends ConnectionDAO{
     }
 
     //SELECT
-    //Retorna apenas endereco e proprietario do armazem
-    public ArrayList<Armazem> selectArmazem(int id) {
+    //Retorna id, endereco e proprietario do armazem
+    public ArrayList<Armazem> selectArmazem() {
         ArrayList<Armazem> armazens = new ArrayList<>();
         connectToDB();
         String sql = "SELECT * FROM Armazem";
@@ -99,9 +98,10 @@ public class ArmazemDAO extends ConnectionDAO{
             System.out.println("Lista de Armazens: ");
 
             while (rs.next()) {
+                Armazem armazemAux = new Armazem(rs.getInt("idArmazem"), rs.getString("endereco"), rs.getInt("idProprietario"));
 
-                Armazem armazemAux = new Armazem(rs.getInt("idArmazem"), rs.getString("endereco"), rs.getInt("idProprietario"), rs.getInt("idProduto"));
-
+                //Retirar print e enviar dados para UI
+                System.out.println("ID = " + armazemAux.getIDArmazem());
                 System.out.println("Endereco = " + armazemAux.getEndereco());
                 System.out.println("Proprietario = " + armazemAux.getIDProprietario());
 
