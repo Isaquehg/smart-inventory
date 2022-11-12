@@ -101,9 +101,9 @@ public class ArmazemDAO extends ConnectionDAO{
                 Armazem armazemAux = new Armazem(rs.getInt("idArmazem"), rs.getString("endereco"), rs.getInt("idProprietario"));
 
                 //Retirar print e enviar dados para UI
-                System.out.println("ID = " + armazemAux.getIDArmazem());
+                System.out.println("ID = " + armazemAux.getIdArmazem());
                 System.out.println("Endereco = " + armazemAux.getEndereco());
-                System.out.println("Proprietario = " + armazemAux.getIDProprietario());
+                System.out.println("Proprietario = " + armazemAux.getIdProprietario());
 
                 System.out.println("--------------------------------");
 

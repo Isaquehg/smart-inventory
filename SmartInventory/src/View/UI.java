@@ -42,4 +42,16 @@ public class UI {
         String produtoIDExcluirString = JOptionPane.showInputDialog("ID do produto a excluir: ");
         int produtoIDExcluir = Integer.parseInt(produtoIDExcluirString);
     }
+    private void cadastrarArmazem(){
+
+    }
+    private void editarArmazem(){
+
+    }
+    private void excluirArmazem(){
+
+    }
+    private void criarProprietario(){
+        
+    }
 }
