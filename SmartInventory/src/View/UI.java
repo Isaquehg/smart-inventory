@@ -1,12 +1,16 @@
 package View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 
+import Control.ArmazemHasProdutoDAO;
+import Control.ProdutoDAO;
 import Model.Armazem;
 import Model.ArmazemHasProduto;
 import Model.Funcionario;
+import Model.Produto;
 
 /**
  * Classe destinada à parte visual do sistema, com interação com usuário
@@ -78,7 +82,7 @@ public class UI {
     }
 
     //Aqui serão mostradas informações base do armazem
-    private void visualizarDadosArmazem(ArrayList<Armazem> armazens, ArrayList<Funcionario> funcionarios){
+    private void visualizarDadosArmazem(ArrayList<Armazem> armazens, ArrayList<Funcionario> funcionarios, ArmazemHasProdutoDAO armazemHasProdutoDAO){
         //Buscar os armazens a serem mostrados
         Armazem armazemAux = null;
         String[] choices = { "ArmazemA", "ArmazemB", "C", "D", "E", "F" };
@@ -111,9 +115,23 @@ public class UI {
         };
         JTable table = new JTable(rows, cols);
         JOptionPane.showMessageDialog(null, new JScrollPane(table));
+        visualizarProdutosArmazem(armazemAux, armazemHasProdutoDAO.selectAhasP());
     }
     //Aqui serão mostrados somente os PRODUTOS do armazem escohido
-    private void visualizarProdutosArmazem(Armazem armazemEscolhido, ArmazemHasProduto armazemHasProduto){
-        
+    private void visualizarProdutosArmazem(Armazem armazemEscolhido, HashMap<Integer, Integer> armazemHasProduto){
+        //Encontrar PK == FK
+        ArrayList<Produto> produtos;
+        ArrayList pkProdutos = new ArrayList<>();
+        for (int i : armazemHasProduto.keySet()) {
+            if(i == armazemEscolhido.getIdArmazem()){
+                pkProdutos.add(armazemHasProduto.get(i));
+            }
+        }
+        //selecionando todos produtos do armazem escolhido
+        ProdutoDAO produto = new ProdutoDAO();
+        ArrayList<Produto> produtosArmazem = produto.selectProduto();
+        for (int i = 0; i < produtosArmazem.size(); i++) {
+            
+        }
     }
 }

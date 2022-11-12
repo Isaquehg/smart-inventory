@@ -125,7 +125,7 @@ public class ProdutoDAO extends ConnectionDAO{
     }
 
     //SELECT
-    public ArrayList<Produto> selectProduto(int id) {
+    public ArrayList<Produto> selectProduto() {
         ArrayList<Produto> produtos = new ArrayList<>();
         connectToDB();
         String sql = "SELECT * FROM Produto";

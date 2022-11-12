@@ -2,6 +2,8 @@ package Control;
 
 import Model.ArmazemHasProduto;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ArmazemHasProdutoDAO extends ConnectionDAO{
     boolean sucesso = false;
@@ -29,5 +31,40 @@ public class ArmazemHasProdutoDAO extends ConnectionDAO{
                 System.out.println("Erro: " + exc.getMessage());
             }
         }
+    }
+    public HashMap<Integer, Integer> selectAhasP(ArmazemHasProduto armazemHasProduto){
+        HashMap<Integer, Integer> aHasProdutos = new HashMap<>();
+        connectToDB();
+        String sql = "SELECT * FROM Armazem_has_Produto";
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+
+            System.out.println("Lista de relações Produtos X Armazens: ");
+
+            while (rs.next()) {
+                ArmazemHasProduto aHasProdutoAux = new ArmazemHasProduto(rs.getInt("Armazem_idArmazem"), rs.getInt("Produto_idProduto"));
+
+                //Retirar print e enviar dados para UI
+                System.out.println("ID Armazem = " + aHasProdutoAux.getIdArmazem());
+                System.out.println("ID Produto = " + aHasProdutoAux.getIdProduto());
+
+                System.out.println("--------------------------------");
+
+                aHasProdutos.put(aHasProdutoAux.getIdArmazem(), aHasProdutoAux.getIdProduto());
+            }
+            sucesso = true;
+        } catch (SQLException e) {
+            System.out.println("Erro: " + e.getMessage());
+            sucesso = false;
+        } finally {
+            try {
+                con.close();
+                st.close();
+            } catch (SQLException e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+        }
+        return aHasProdutos;
     }
 }
