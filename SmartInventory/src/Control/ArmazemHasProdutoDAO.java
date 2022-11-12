@@ -32,7 +32,7 @@ public class ArmazemHasProdutoDAO extends ConnectionDAO{
             }
         }
     }
-    public HashMap<Integer, Integer> selectAhasP(ArmazemHasProduto armazemHasProduto){
+    public HashMap<Integer, Integer> selectAhasP(){
         HashMap<Integer, Integer> aHasProdutos = new HashMap<>();
         connectToDB();
         String sql = "SELECT * FROM Armazem_has_Produto";

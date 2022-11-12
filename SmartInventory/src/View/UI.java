@@ -130,8 +130,8 @@ public class UI {
         //selecionando todos produtos do armazem escolhido
         ProdutoDAO produto = new ProdutoDAO();
         ArrayList<Produto> produtosArmazem = produto.selectProduto();
-        for (int i = 0; i < produtosArmazem.size(); i++) {
-            
-        }
+        
+        //Mostrar dados desses produtos do armazem
+
     }
 }
