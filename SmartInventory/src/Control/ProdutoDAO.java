@@ -2,8 +2,9 @@ package Control;
 
 import Model.Produto;
 import Model.Armazem;
+import Model.ArmazemHasProduto;
 import Model.Funcionario;
-import Control.ArmazemHasProduto;
+import Control.ArmazemHasProdutoDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class ProdutoDAO extends ConnectionDAO{
         try {
             //Tabela Produto
             pst = con.prepareStatement(sqlP);
-            pst.setInt(1, produto.getID());
+            pst.setInt(1, produto.getIdProduto());
             pst.setString(2, produto.getNome());
             pst.setString(3, produto.getCategoria());
             pst.setInt(4, produto.getPeso());
@@ -35,7 +36,7 @@ public class ProdutoDAO extends ConnectionDAO{
             pst.execute();
 
             //Passando idProduto para atualização da tabela ArmazemHasProduto
-            armazemHasProduto.updateAhasP(armazem.getID(), produto.getID());
+            armazemHasProduto.setIdProduto(produto.getIdProduto());
 
             sucesso = true;
         } catch (SQLException exc) {
@@ -63,7 +64,7 @@ public class ProdutoDAO extends ConnectionDAO{
             try {
                 pst = con.prepareStatement(sql1);
                 pst.setInt(1, produto.getQuantidade());
-                pst.setInt(2, produto.getID());
+                pst.setInt(2, produto.getIdProduto());
                 pst.execute();
                 sucesso = true;
             } catch (SQLException ex) {
@@ -82,10 +83,9 @@ public class ProdutoDAO extends ConnectionDAO{
         else if(op == 1){
             try {
                 pst = con.prepareStatement(sql2);
-                pst.setInt(1, produto.getNome());
-                pst.setInt(2, produto.getCategoria());
+                pst.setString(1, produto.getNome());
+                pst.setString(2, produto.getCategoria());
                 pst.setInt(2, produto.getPeso());
-                pst.setInt(2, produto.getIDArmazem());
                 pst.execute();
                 sucesso = true;
             } catch (SQLException ex) {
@@ -140,14 +140,14 @@ public class ProdutoDAO extends ConnectionDAO{
 
             while (rs.next()) {
 
-                Produto produtoAux = new Produto(rs.getInt("idProduto"), rs.getString("nome"), rs.getString("categoria"), rs.getInt("peso"), rs.getInt("quantidade"), rs.getInt("idArmazem"));
+                Produto produtoAux = new Produto(rs.getInt("idProduto"), rs.getString("nome"), rs.getString("categoria"), rs.getInt("peso"), rs.getInt("quantidade"));
                 
                 //Retirar print e enviar dados para UI
+                System.out.println("Nome = " + produtoAux.getIdProduto());
                 System.out.println("Nome = " + produtoAux.getNome());
                 System.out.println("Categoria = " + produtoAux.getCategoria());
                 System.out.println("Peso = " + produtoAux.getPeso() + "kg");
                 System.out.println("Quantidade = " + produtoAux.getQuantidade());
-                System.out.println("ID Armazem = " + produtoAux.getIDArmazem());
 
                 System.out.println("--------------------------------");
 
