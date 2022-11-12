@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Model.Armazem;
+import Model.ArmazemHasProduto;
 import Model.Funcionario;
 
 /**
@@ -79,6 +80,7 @@ public class UI {
     //Aqui serão mostradas informações base do armazem
     private void visualizarDadosArmazem(ArrayList<Armazem> armazens, ArrayList<Funcionario> funcionarios){
         //Buscar os armazens a serem mostrados
+        Armazem armazemAux = null;
         String[] choices = { "ArmazemA", "ArmazemB", "C", "D", "E", "F" };
         for (int i = 0; i < armazens.size(); i++) {
             choices[i] = String.valueOf(armazens.get(i).getIdArmazem());
@@ -86,18 +88,23 @@ public class UI {
         String idArmazemString = (String) JOptionPane.showInputDialog(null, "Escolha o armazém",
             "Visualização", JOptionPane.QUESTION_MESSAGE, null, choices, choices[1]);
         int idArmazemEscolhido = Integer.parseInt(idArmazemString);
+        for (int i = 0; i < armazens.size(); i++) {
+            if(idArmazemEscolhido == armazens.get(i).getIdArmazem()){
+                armazemAux = armazens.get(i);
+            }
+        }
 
         //Obter numero de funcionarios
         int nFuncionariosArmazem = 0;
         for (int i = 0; i < funcionarios.size(); i++) {
-            if(funcionarios.get(i).getIDArmazem() == armazens.get(idArmazemEscolhido).getIdArmazem()){
+            if(funcionarios.get(i).getIDArmazem() == armazemAux.getIdArmazem()){
                 nFuncionariosArmazem ++;
             }
         }
 
-        //Mostrar seus dados
+        //Output em JTable
         Object[][] rows = {
-            {armazens.get(idArmazemEscolhido).getIdArmazem(),armazens.get(idArmazemEscolhido).getEndereco(),armazens.get(idArmazemEscolhido).getIdProprietario(), nFuncionariosArmazem}
+            {armazemAux.getIdArmazem(),armazemAux.getEndereco(),armazemAux.getIdProprietario(), nFuncionariosArmazem}
         };
         Object[] cols = {
             "ID","Endereço","Proprietario","Numero de Funcionarios"
@@ -105,8 +112,8 @@ public class UI {
         JTable table = new JTable(rows, cols);
         JOptionPane.showMessageDialog(null, new JScrollPane(table));
     }
-    //Aqui serão mostrados somente os produtos do armazem escohido
-    private void visualizarProdutosArmazem(){
-
+    //Aqui serão mostrados somente os PRODUTOS do armazem escohido
+    private void visualizarProdutosArmazem(Armazem armazemEscolhido, ArmazemHasProduto armazemHasProduto){
+        
     }
 }
