@@ -3,8 +3,6 @@ package Control;
 import Model.Produto;
 import Model.Armazem;
 import Model.ArmazemHasProduto;
-import Model.Funcionario;
-import Control.ArmazemHasProdutoDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

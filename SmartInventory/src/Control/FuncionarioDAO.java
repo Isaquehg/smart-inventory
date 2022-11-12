@@ -1,8 +1,6 @@
 package Control;
 
 import Model.Funcionario;
-import Model.Armazem;
-import Model.Produto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,12 +14,13 @@ public class FuncionarioDAO extends ConnectionDAO{
 
         connectToDB();
 
-        String sql = "INSERT INTO Funcionario (nome, cpf, idArmazem) values(?, ?, ?)";
+        String sql = "INSERT INTO Funcionario (idFuncionario, nome, cpf, Armazem_idArmazem) values(?, ?, ?)";
         try {
             pst = con.prepareStatement(sql);
-            pst.setString(1, funcionario.getNome());
-            pst.setInt(2, funcionario.getCpf());
-            pst.setInt(3, funcionario.getIDArmazem());
+            pst.setInt(1, funcionario.getIdFuncionario());
+            pst.setString(2, funcionario.getNome());
+            pst.setString(3, funcionario.getCpf());
+            pst.setInt(4, funcionario.getIDArmazem());
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -46,7 +45,7 @@ public class FuncionarioDAO extends ConnectionDAO{
         try {
             pst = con.prepareStatement(sql1);
             pst.setString(1, funcionario.getNome());
-            pst.setInt(2, funcionario.getCpf());
+            pst.setString(2, funcionario.getCpf());
             pst.setInt(3, funcionario.getIDArmazem());
             pst.execute();
             sucesso = true;
@@ -105,7 +104,7 @@ public class FuncionarioDAO extends ConnectionDAO{
                 Funcionario funcionarioAux = new Funcionario(rs.getInt("idFuncionario"), rs.getString("nome"), rs.getString("cpf"), rs.getInt("Armazem_idArmazem"));
 
                 //Passar print para UI
-                System.out.println("ID = " + funcionarioAux.getIDProprietario());
+                System.out.println("ID = " + funcionarioAux.getIdFuncionario());
                 System.out.println("Nome = " + funcionarioAux.getNome());
                 System.out.println("CPF = " + funcionarioAux.getCpf());
                 System.out.println("ID Armazem = " + funcionarioAux.getIDArmazem());

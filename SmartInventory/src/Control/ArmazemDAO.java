@@ -17,9 +17,9 @@ public class ArmazemDAO extends ConnectionDAO{
         String sql = "INSERT INTO Armazem (idArmazem, endereco, Proprietario_idProprietario) values(?, ?, ?)";
         try {
             pst = con.prepareStatement(sql);
-            pst.setString(1, armazem.getIDArmazem());
-            pst.setInt(2, armazem.getEndereco());
-            pst.setInt(3, armazem.getIDProprietario());
+            pst.setInt(1, armazem.getIdArmazem());
+            pst.setString(2, armazem.getEndereco());
+            pst.setInt(3, armazem.getIdProprietario());
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -44,7 +44,7 @@ public class ArmazemDAO extends ConnectionDAO{
         try {
             pst = con.prepareStatement(sql1);
             pst.setString(1, armazem.getEndereco());
-            pst.setInt(2, armazem.getIDProprietario());
+            pst.setInt(2, armazem.getIdProprietario());
             pst.execute();
             sucesso = true;
         } catch (SQLException ex) {
