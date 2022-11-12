@@ -15,12 +15,12 @@ public class Produto {
     private int idArmazem;
     private Armazem[] armazens = new Armazem[25];
 
-    public Produto(int idProduto, String nome, String categoria, int peso, int quantidade, int idArmazem){
+    public Produto(int idProduto, String nome, String categoria, int peso, int quantidade){
         this.idProduto = idProduto;
         this.nome = nome;
         this.peso = peso;
         this.categoria = categoria;
         this.quantidade = quantidade;
-        this.idArmazem = idArmazem;
     }
+
 }

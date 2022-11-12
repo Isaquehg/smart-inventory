@@ -17,4 +17,28 @@ public class Armazem {
         this.endereco = endereco;
         this.idProprietario = idProprietario;
     }
+
+    public int getIdArmazem() {
+        return idArmazem;
+    }
+
+    public void setIdArmazem(int idArmazem) {
+        this.idArmazem = idArmazem;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public int getIdProprietario() {
+        return idProprietario;
+    }
+
+    public void setIdProprietario(int idProprietario) {
+        this.idProprietario = idProprietario;
+    }
 }
