@@ -22,8 +22,22 @@ public class UI {
     //Interface principal com usuário
     public void inicio(){
         JOptionPane.showMessageDialog(null, "Bem vindo ao Sistema Smart Inventory");
-        String op = JOptionPane.showInputDialog("Qual operação você deseja realizar? 
-        1 - Cadastrar 2 - Editar 3 - Excluir 4 - Vizualizar");
+        String op = JOptionPane.showInputDialog("Qual operação você deseja realizar? 1 - Cadastrar 2 - Editar 3 - Excluir 4 - Vizualizar");
+        if(op == "1"){
+
+        }
+        else if(op == "2"){
+
+        }
+        else if(op == "3"){
+
+        }
+        else if(op == "4"){
+
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);     
+        }
     }
 
     //Cadastro de novos produtos
