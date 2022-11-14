@@ -1,6 +1,7 @@
 package Control;
 
 import Model.Armazem;
+import Model.ArmazemHasProduto;
 import Model.Produto;
 
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ public class ArmazemDAO extends ConnectionDAO{
     boolean sucesso = false; //Para saber se funcionou
 
     //INSERT
-    public boolean createArmazem(Armazem armazem) {
+    public boolean createArmazem(Armazem armazem, ArmazemHasProduto armazemHasProduto) {
         connectToDB();
 
         String sql = "INSERT INTO Armazem (idArmazem, endereco, Proprietario_idProprietario) values(?, ?, ?)";
@@ -33,6 +34,8 @@ public class ArmazemDAO extends ConnectionDAO{
                 System.out.println("Erro: " + exc.getMessage());
             }
         }
+        //Passando idProduto para atualização da tabela ArmazemHasProduto
+        armazemHasProduto.setIdArmazem(armazem.getIdArmazem());
         return sucesso;
     }
 

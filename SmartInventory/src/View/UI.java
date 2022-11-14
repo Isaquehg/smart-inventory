@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import Control.ArmazemHasProdutoDAO;
 import Control.ProdutoDAO;
 import Model.Armazem;
-import Model.ArmazemHasProduto;
 import Model.Funcionario;
 import Model.Produto;
 
 /**
- * Classe destinada à parte visual do sistema, com interação com usuário
- * @author IZ & Isaque
+ * Classe destinada à parte visual do sistema para interação com usuário
+ * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */
@@ -22,7 +22,8 @@ public class UI {
     //Interface principal com usuário
     public void inicio(){
         JOptionPane.showMessageDialog(null, "Bem vindo ao Sistema Smart Inventory");
-
+        String op = JOptionPane.showInputDialog("Qual operação você deseja realizar? 
+        1 - Cadastrar 2 - Editar 3 - Excluir 4 - Vizualizar");
     }
 
     //Cadastro de novos produtos
@@ -120,18 +121,33 @@ public class UI {
     //Aqui serão mostrados somente os PRODUTOS do armazem escohido
     private void visualizarProdutosArmazem(Armazem armazemEscolhido, HashMap<Integer, Integer> armazemHasProduto){
         //Encontrar PK == FK
-        ArrayList<Produto> produtos;
-        ArrayList pkProdutos = new ArrayList<>();
+        ArrayList<Integer> pkProdutos = new ArrayList<>();
         for (int i : armazemHasProduto.keySet()) {
             if(i == armazemEscolhido.getIdArmazem()){
                 pkProdutos.add(armazemHasProduto.get(i));
             }
         }
         //selecionando todos produtos do armazem escolhido
-        ProdutoDAO produto = new ProdutoDAO();
-        ArrayList<Produto> produtosArmazem = produto.selectProduto();
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        ArrayList<Produto> produtosArmazem = produtoDAO.selectProduto(armazemEscolhido.getIdArmazem());
         
         //Mostrar dados desses produtos do armazem utilizando JTable
-
+        JTable tabelaProdutos = new JTable();
+        DefaultTableModel dtm = new DefaultTableModel(0, 0);
+       
+       //Header
+       String header[] = new String[] { "ID Produto", "Nome", "Categoria",
+                   "Peso", "Quantidade"};
+       
+       //Adicionar header no Table Model
+        dtm.setColumnIdentifiers(header);
+            //set model into the table object
+            tabelaProdutos.setModel(dtm);
+       
+        //Adicionar dados dinamicamente à tabela 
+       for (int i = 0; i < produtosArmazem.size(); i ++) {
+               dtm.addRow(new Object[] { "data", "data", "data",
+                       "data", "data"});
+        }
     }
 }

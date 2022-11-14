@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Classe destinada 
- * @author IZ & Isaque
+ * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */
@@ -125,14 +125,17 @@ public class ProdutoDAO extends ConnectionDAO{
     }
 
     //SELECT
-    public ArrayList<Produto> selectProduto() {
+    //SELECT somente dos produtos em determinado armazem
+    public ArrayList<Produto> selectProduto(int idArmazem) {
         ArrayList<Produto> produtos = new ArrayList<>();
         connectToDB();
-        String sql = "SELECT * FROM Produto";
+        String sql = "SELECT * FROM Produto, Armazem_has_Produto where Armazem_has_Produto.Armazem_idArmazem = ?";
 
         try {
-            st = con.createStatement();
-            rs = st.executeQuery(sql);
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, idArmazem);
+            pst.execute();
+            rs = pst.executeQuery();
 
             System.out.println("Lista de produtos: ");
 

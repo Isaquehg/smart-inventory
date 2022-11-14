@@ -1,8 +1,8 @@
 package Control;
 
 /**
- * Classe destinada 
- * @author IZ & Isaque
+ * Classe principal
+ * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */

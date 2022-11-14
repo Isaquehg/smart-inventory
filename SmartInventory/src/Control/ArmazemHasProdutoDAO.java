@@ -2,7 +2,6 @@ package Control;
 
 import Model.ArmazemHasProduto;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ArmazemHasProdutoDAO extends ConnectionDAO{
