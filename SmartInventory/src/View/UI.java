@@ -75,8 +75,7 @@ public class UI {
                     JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
             }
             else if(op1 == 4){
-                //ATENÇÃO
-                visualizarDadosArmazem(null, null, null);
+                visualizarDadosArmazem();
             }
             else{
                 JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
@@ -247,6 +246,8 @@ public class UI {
 
         produtoDAO.createProduto(produto, armazemHasProduto);
     }
+
+    //Inserting inventory to a product in that storage
     private void editarProduto(){
         //User input
         String IdProdutoString = JOptionPane.showInputDialog("Insira o ID do produto a editar");
@@ -261,30 +262,12 @@ public class UI {
         //Send data to DAO
         Produto produto = new Produto(IdProduto, nomeProduto, categoriaProduto, pesoProduto, 0);
         ProdutoDAO produtoDAO = new ProdutoDAO();
+
         //Passing ID to intermediate table Armazem_has_Produtos
         ArmazemHasProduto armazemHasProduto = new ArmazemHasProduto();
         armazemHasProduto.setIdArmazem(idArmazemProduto);
 
         produtoDAO.updateProduto(produto, idArmazemProduto);
-    }
-
-    //Inserting inventory to a product in that storage
-    private void inserirEstoqueProduto(){
-        //User input
-        String idProdutoString = JOptionPane.showInputDialog("ID do produto a inserir estoque: ");
-        int idProduto = Integer.parseInt(idProdutoString);
-        String idArmazemProdutoString = JOptionPane.showInputDialog("ID do armazém a inserir estoque: ");
-        int idArmazemProduto = Integer.parseInt(idArmazemProdutoString);
-        String quantidadeProdutoString = JOptionPane.showInputDialog("Quantidade a inserir desse produto: ");
-        int quantidadeProduto = Integer.parseInt(quantidadeProdutoString);
-
-        //Passing data to DAO
-        ProdutoDAO produtoDAO = new ProdutoDAO();
-        produtoDAO.updateProduto(idProduto, quantidadeProduto);
-
-        //Updating data in intermediate table
-        ArmazemHasProdutoDAO armazemHasProdutoDAO = new ArmazemHasProdutoDAO();
-        armazemHasProdutoDAO.updateAhasP(idArmazemProduto, idProduto);
     }
 
     private void deletarProduto(){
@@ -297,8 +280,16 @@ public class UI {
         produtoDAO.deleteProduto(IdProduto);
     }
 
-    //Armazem drop-down list
-    private void visualizarDadosArmazem(ArrayList<Armazem> armazens, ArrayList<Funcionario> funcionarios, ArmazemHasProdutoDAO armazemHasProdutoDAO){
+    //Storages drop-down list
+    private void visualizarDadosArmazem(){
+        //Creating Auxliar instances
+        ArmazemDAO armazemDAO = new ArmazemDAO();
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+        //Getting SELECT from DAO
+        ArrayList<Armazem> armazens = armazemDAO.selectArmazem();
+        ArrayList<Funcionario> funcionarios = funcionarioDAO.selectFuncionario();
+
         //Searching for storages
         Armazem armazemAux = null;
         String[] choices = new String[100];
@@ -333,11 +324,17 @@ public class UI {
         };
         JTable table = new JTable(rows, cols);
         JOptionPane.showMessageDialog(null, new JScrollPane(table));
-        visualizarProdutosArmazem(armazemAux, armazemHasProdutoDAO.selectAhasP());
+
+        //Displaying Products in this storage
+        visualizarProdutosArmazem(armazemAux);
     }
 
-    //Here's gonna be show only products from that storage
-    private void visualizarProdutosArmazem(Armazem armazemEscolhido, HashMap<Integer, Integer> armazemHasProduto){
+    //Here's gonna be shown only products from that storage
+    private void visualizarProdutosArmazem(Armazem armazemEscolhido){
+        //Generating auxliar DAO instances for SELECT
+        ArmazemHasProdutoDAO armazemHasProdutoDAO = new ArmazemHasProdutoDAO();
+        HashMap<Integer, Integer> armazemHasProduto = armazemHasProdutoDAO.selectAhasP();
+
         //Finding PK == FK
         ArrayList<Integer> pkProdutos = new ArrayList<>();
         for (int i : armazemHasProduto.keySet()) {

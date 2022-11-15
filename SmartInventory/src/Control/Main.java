@@ -4,7 +4,7 @@ import View.UI;
 
 /**
  * Main Class
- * App Starting point
+ * App entry point
  * @author Isaque
  * @version 1.0
  * @since 11/03/2022
