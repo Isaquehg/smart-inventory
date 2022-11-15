@@ -5,10 +5,9 @@ public class Proprietario {
     private String nome;
     private int armazemID;
 
-    public Proprietario(int idProprietario, String nome, int armazemID){
+    public Proprietario(int idProprietario, String nome){
         this.idProprietario = idProprietario;
         this.nome = nome;
-        this.armazemID = armazemID;
     }
 
     public int getIdProprietario() {

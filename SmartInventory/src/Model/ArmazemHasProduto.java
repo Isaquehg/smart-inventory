@@ -4,9 +4,7 @@ public class ArmazemHasProduto {
     private int idArmazem;
     private int idProduto;
 
-    public ArmazemHasProduto(int idArmazem, int idProduto){
-        this.idArmazem = idArmazem;
-        this.idProduto = idProduto;
+    public ArmazemHasProduto(){
     }
 
     public int getIdArmazem(){

@@ -19,7 +19,7 @@ public class ProdutoDAO extends ConnectionDAO{
     boolean sucesso = false; //Para saber se funcionou
 
     //INSERT
-    public boolean createProduto(Produto produto, Armazem armazem, ArmazemHasProduto armazemHasProduto) {
+    public boolean createProduto(Produto produto, ArmazemHasProduto armazemHasProduto) {
         connectToDB();
 
         String sqlP = "INSERT INTO Produto (idProduto, nome, categoria, peso, quantidade) VALUES(?, ?, ?, ?, ?)";
@@ -52,50 +52,56 @@ public class ProdutoDAO extends ConnectionDAO{
     }
 
     //UPDATE
-    //Alterar estoque de um produto OU alterar seus dados de cadastro
-    public boolean updateProduto(int id, Produto produto, int op) {
+    //P.S.: Function overloading
+    //Case 1: Changing registration data and location
+    //Case 2: Changing quantity in inventory
+    //Changing product storage location
+    public boolean updateProduto(Produto produto, int idArmazem) {
         connectToDB();
-        String sql1 = "UPDATE Produto SET quantidade=? where id=?";
-        String sql2 = "UPDATE Produto SET nome=?, peso=?, categoria=?, idArmazem=? where id=?";
-        //alterar estoque
-        if(op == 0){
+        String sql2 = "UPDATE Produto SET nome=?, peso=?, categoria=? where id=?";
+
+        //changing registration data
+        try {
+            pst = con.prepareStatement(sql2);
+            pst.setString(1, produto.getNome());
+            pst.setInt(2, produto.getPeso());
+            pst.setString(3, produto.getCategoria());
+            pst.setInt(4, produto.getIdProduto());
+            pst.execute();
+            sucesso = true;
+        } catch (SQLException ex) {
+            System.out.println("Erro = " + ex.getMessage());
+            sucesso = false;
+        } finally {
             try {
-                pst = con.prepareStatement(sql1);
-                pst.setInt(1, produto.getQuantidade());
-                pst.setInt(2, produto.getIdProduto());
-                pst.execute();
-                sucesso = true;
-            } catch (SQLException ex) {
-                System.out.println("Erro = " + ex.getMessage());
-                sucesso = false;
-            } finally {
-                try {
-                    con.close();
-                    pst.close();
-                } catch (SQLException exc) {
-                    System.out.println("Erro: " + exc.getMessage());
-                }
+                con.close();
+                pst.close();
+            } catch (SQLException exc) {
+                System.out.println("Erro: " + exc.getMessage());
             }
         }
-        //alterar dados cadastrais
-        else if(op == 1){
+        return sucesso;
+    }
+    public boolean updateProduto(int id, int quantidade){
+        connectToDB();
+        String sql1 = "UPDATE Produto SET quantidade=? where id=?";
+
+        //alter product inventory amount
+        try {
+            pst = con.prepareStatement(sql1);
+            pst.setInt(1, quantidade);
+            pst.setInt(2, id);
+            pst.execute();
+            sucesso = true;
+        } catch (SQLException ex) {
+            System.out.println("Erro = " + ex.getMessage());
+            sucesso = false;
+        } finally {
             try {
-                pst = con.prepareStatement(sql2);
-                pst.setString(1, produto.getNome());
-                pst.setString(2, produto.getCategoria());
-                pst.setInt(2, produto.getPeso());
-                pst.execute();
-                sucesso = true;
-            } catch (SQLException ex) {
-                System.out.println("Erro = " + ex.getMessage());
-                sucesso = false;
-            } finally {
-                try {
-                    con.close();
-                    pst.close();
-                } catch (SQLException exc) {
-                    System.out.println("Erro: " + exc.getMessage());
-                }
+                con.close();
+                pst.close();
+            } catch (SQLException exc) {
+                System.out.println("Erro: " + exc.getMessage());
             }
         }
         return sucesso;

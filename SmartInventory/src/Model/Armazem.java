@@ -2,7 +2,7 @@ package Model;
 
 /**
  * Classe destinada 
- * @author IZ & Isaque
+ * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */

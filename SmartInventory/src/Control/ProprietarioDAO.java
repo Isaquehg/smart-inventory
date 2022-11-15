@@ -1,25 +1,24 @@
 package Control;
 
-import Model.Armazem;
-import Model.ArmazemHasProduto;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ArmazemDAO extends ConnectionDAO{
+import Model.Proprietario;
+
+public class ProprietarioDAO extends ConnectionDAO{
     //DAO - Data Access Object
-    boolean sucesso = false; //Para saber se funcionou
+    boolean sucesso = false;
 
     //INSERT
-    public boolean createArmazem(Armazem armazem, ArmazemHasProduto armazemHasProduto) {
+    public boolean createProprietario(Proprietario proprietario) {
+
         connectToDB();
 
-        String sql = "INSERT INTO Armazem (idArmazem, endereco, Proprietario_idProprietario) values(?, ?, ?)";
+        String sql = "INSERT INTO Proprietario (idProprietario, nome) values(?, ?)";
         try {
             pst = con.prepareStatement(sql);
-            pst.setInt(1, armazem.getIdArmazem());
-            pst.setString(2, armazem.getEndereco());
-            pst.setInt(3, armazem.getIdProprietario());
+            pst.setInt(1, proprietario.getIdProprietario());
+            pst.setString(2, proprietario.getNome());
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -33,21 +32,18 @@ public class ArmazemDAO extends ConnectionDAO{
                 System.out.println("Erro: " + exc.getMessage());
             }
         }
-        //Passando idProduto para atualização da tabela ArmazemHasProduto
-        armazemHasProduto.setIdArmazem(armazem.getIdArmazem());
         return sucesso;
     }
 
     //UPDATE
-    public boolean updateArmazem(Armazem armazem) {
+    public boolean updateProprietario(Proprietario proprietario) {
         connectToDB();
-        String sql1 = "UPDATE Armazem SET endereco=?, Proprietario_idProprietario=? where idArmazem=?";
+        String sql1 = "UPDATE Proprietario SET nome=? where id=?";
         //alterar estoque
         try {
             pst = con.prepareStatement(sql1);
-            pst.setString(1, armazem.getEndereco());
-            pst.setInt(2, armazem.getIdProprietario());
-            pst.setInt(3, armazem.getIdArmazem());
+            pst.setString(1, proprietario.getNome());
+            pst.setInt(2, proprietario.getIdProprietario());
             pst.execute();
             sucesso = true;
         } catch (SQLException ex) {
@@ -65,9 +61,9 @@ public class ArmazemDAO extends ConnectionDAO{
     }
 
     //DELETE
-    public boolean deleteArmazem(int id) {
+    public boolean deleteProprietario(int id) {
         connectToDB();
-        String sql = "DELETE FROM Armazem where idArmazem=?";
+        String sql = "DELETE FROM Proprietario where id=?";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1, id);
@@ -88,29 +84,28 @@ public class ArmazemDAO extends ConnectionDAO{
     }
 
     //SELECT
-    //Retorna id, endereco e proprietario do armazem
-    public ArrayList<Armazem> selectArmazem() {
-        ArrayList<Armazem> armazens = new ArrayList<>();
+    public ArrayList<Proprietario> selectProprietario() {
+        ArrayList<Proprietario> proprietarios = new ArrayList<>();
         connectToDB();
-        String sql = "SELECT * FROM Armazem";
+        String sql = "SELECT * FROM Proprietario";
 
         try {
             st = con.createStatement();
             rs = st.executeQuery(sql);
 
-            System.out.println("Lista de Armazens: ");
+            System.out.println("Lista de Proprietarios: ");
 
             while (rs.next()) {
-                Armazem armazemAux = new Armazem(rs.getInt("idArmazem"), rs.getString("endereco"), rs.getInt("idProprietario"));
 
-                //Retirar print e enviar dados para UI
-                System.out.println("ID = " + armazemAux.getIdArmazem());
-                System.out.println("Endereco = " + armazemAux.getEndereco());
-                System.out.println("Proprietario = " + armazemAux.getIdProprietario());
+                Proprietario proprietarioAux = new Proprietario(rs.getInt("idProprietario"), rs.getString("nome"));
+
+                //Passar print para UI
+                System.out.println("ID = " + proprietarioAux.getIdProprietario());
+                System.out.println("Nome = " + proprietarioAux.getNome());
 
                 System.out.println("--------------------------------");
 
-                armazens.add(armazemAux);
+                proprietarios.add(proprietarioAux);
             }
             sucesso = true;
         } catch (SQLException e) {
@@ -124,6 +119,6 @@ public class ArmazemDAO extends ConnectionDAO{
                 System.out.println("Erro: " + e.getMessage());
             }
         }
-        return armazens;
+        return proprietarios;
     }
 }

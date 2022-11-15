@@ -10,7 +10,7 @@ public class FuncionarioDAO extends ConnectionDAO{
     boolean sucesso = false;
 
     //INSERT
-    public boolean createArmazem(Funcionario funcionario) {
+    public boolean createFuncionario(Funcionario funcionario) {
 
         connectToDB();
 
@@ -38,7 +38,7 @@ public class FuncionarioDAO extends ConnectionDAO{
     }
 
     //UPDATE
-    public boolean updateFuncionario(int id, Funcionario funcionario) {
+    public boolean updateFuncionario(Funcionario funcionario) {
         connectToDB();
         String sql1 = "UPDATE Funcionario SET nome=?, cpf=?, Armazem_idArmazem=? where id=?";
         //alterar estoque
@@ -47,6 +47,7 @@ public class FuncionarioDAO extends ConnectionDAO{
             pst.setString(1, funcionario.getNome());
             pst.setString(2, funcionario.getCpf());
             pst.setInt(3, funcionario.getIDArmazem());
+            pst.setInt(4, funcionario.getIdFuncionario());
             pst.execute();
             sucesso = true;
         } catch (SQLException ex) {

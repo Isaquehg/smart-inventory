@@ -8,7 +8,7 @@ public class ArmazemHasProdutoDAO extends ConnectionDAO{
     boolean sucesso = false;
 
     //Realizar a atualização da tabela ArmazemhasProduto após a inserção de um novo produto
-    public void updateAhasP(ArmazemHasProduto armazemHasProduto) {
+    public void createAhasP(ArmazemHasProduto armazemHasProduto) {
         connectToDB();
 
         String sqlAhasP = "INSERT INTO Armazem_has_Produto (Armazem_idArmazem, Produto_idProduto) VALUES (?, ?)";
@@ -42,7 +42,9 @@ public class ArmazemHasProdutoDAO extends ConnectionDAO{
             System.out.println("Lista de relações Produtos X Armazens: ");
 
             while (rs.next()) {
-                ArmazemHasProduto aHasProdutoAux = new ArmazemHasProduto(rs.getInt("Armazem_idArmazem"), rs.getInt("Produto_idProduto"));
+                ArmazemHasProduto aHasProdutoAux = new ArmazemHasProduto();
+                aHasProdutoAux.setIdArmazem(rs.getInt("Armazem_idArmazem"));
+                aHasProdutoAux.setIdProduto(rs.getInt("Produto_idProduto"));
 
                 //Retirar print e enviar dados para UI
                 System.out.println("ID Armazem = " + aHasProdutoAux.getIdArmazem());
@@ -65,5 +67,31 @@ public class ArmazemHasProdutoDAO extends ConnectionDAO{
             }
         }
         return aHasProdutos;
+    }
+
+    //UPDATE
+    //Updating storage where the product is
+    public boolean updateAhasP(int idProduto, int idArmazem) {
+        connectToDB();
+        String sql1 = "UPDATE Armazem_has_Produto SET Armazem_idArmazem=? where Produto_idProduto=?";
+        //alterar estoque
+        try {
+            pst = con.prepareStatement(sql1);
+            pst.setInt(1, idArmazem);
+            pst.setInt(2, idProduto);
+            pst.execute();
+            sucesso = true;
+        } catch (SQLException ex) {
+            System.out.println("Erro = " + ex.getMessage());
+            sucesso = false;
+        } finally {
+            try {
+                con.close();
+                pst.close();
+            } catch (SQLException exc) {
+                System.out.println("Erro: " + exc.getMessage());
+            }
+        }
+        return sucesso;
     }
 }
