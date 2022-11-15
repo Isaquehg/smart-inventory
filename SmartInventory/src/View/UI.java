@@ -278,7 +278,13 @@ public class UI {
     }
 
     private void deletarProduto(){
+        //User input
+        String IdProdutoString = JOptionPane.showInputDialog("Insira o ID do produto a excluir");
+        int IdProduto = Integer.parseInt(IdProdutoString);
 
+        //Send data to DAO
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.deleteProduto(IdProduto);
     }
 
     //Armazem drop-down list
