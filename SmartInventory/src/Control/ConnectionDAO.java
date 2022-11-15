@@ -3,7 +3,7 @@ package Control;
 import java.sql.*;
 
 /**
- * Classe destinada 
+ * Base class for establishing Database connection
  * @author Isaque
  * @version 1.0
  * @since 11/03/2022
@@ -11,12 +11,12 @@ import java.sql.*;
 
 public abstract class ConnectionDAO {
 
-    Connection con; //conexão
-    PreparedStatement pst; // declaração(query) preparada - código em sql
-    Statement st; //declaração(query) - código em sql
-    ResultSet rs; //resposta do banco
+    Connection con; //Connection
+    PreparedStatement pst; //prepared SQL Query
+    Statement st; //SQL Query
+    ResultSet rs; //DB response
 
-    String database = "integracao";//nome do BD
+    String database = "smart-inventory";//DB name
     String user = "root";
     String password = "root";
     String url = "jdbc:mysql://localhost:3306/" + database + "?useTimezone=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
