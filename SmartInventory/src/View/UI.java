@@ -26,53 +26,63 @@ import Model.Proprietario;
 public class UI {
     //Interface principal com usuário
     public void inicio(){
-        JOptionPane.showMessageDialog(null, "Bem vindo ao Sistema Smart Inventory");
-        String op = JOptionPane.showInputDialog("Qual operação você deseja realizar? 1 - Cadastrar 2 - Editar 3 - Excluir 4 - Vizualizar");
-        if(op == "1"){
-            String op2 = JOptionPane.showInputDialog("Qual cadastro você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
-            if(op2 == "1")
-                cadastrarProprietario();
-            else if(op2 == "2")
-                cadastrarArmazem();
-            else if(op2 == "3")
-                cadastrarProduto();
-            else if(op2 == "4")
-                cadastrarFuncionario();
-            else
+        JOptionPane.showMessageDialog(null, "Bem vindo!", "Smart Inventory", JOptionPane.INFORMATION_MESSAGE);
+
+        int continuar = 1;
+        while(continuar == 1){
+            String opString = JOptionPane.showInputDialog("Qual operação você deseja realizar? 1 - Cadastrar 2 - Editar 3 - Excluir 4 - Vizualizar");
+            int op1 = Integer.parseInt(opString);
+            if(op1 == 1){
+                String op2String = JOptionPane.showInputDialog("Qual cadastro você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
+                int op2 = Integer.parseInt(op2String);
+                if(op2 == 1)
+                    cadastrarProprietario();
+                else if(op2 == 2)
+                    cadastrarArmazem();
+                else if(op2 == 3)
+                    cadastrarProduto();
+                else if(op2 == 4)
+                    cadastrarFuncionario();
+                else
+                    JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
+            }
+            else if(op1 == 2){
+                String op2String = JOptionPane.showInputDialog("Qual Edição você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
+                int op2 = Integer.parseInt(op2String);
+                if(op2 == 1)
+                    editarProprietario();
+                else if(op2 == 2)
+                    editarArmazem();
+                else if(op2 == 3)
+                    editarProduto();
+                else if(op2 == 4)
+                    editarFuncionario();
+                else
+                    JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
+            }
+            else if(op1 == 3){
+                String op2String = JOptionPane.showInputDialog("Qual Exclusão você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
+                int op2 = Integer.parseInt(op2String);
+                if(op2 == 1)
+                    deletarProprietario();
+                else if(op2 == 2)
+                    deletarArmazem();
+                else if(op2 == 3)
+                    deletarProduto();
+                else if(op2 == 4)
+                    deletarFuncionario();
+                else
+                    JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
+            }
+            else if(op1 == 4){
+                //ATENÇÃO
+                visualizarDadosArmazem(null, null, null);
+            }
+            else{
                 JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
-        }
-        else if(op == "2"){
-            String op2 = JOptionPane.showInputDialog("Qual Edição você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
-            if(op2 == "1")
-                editarProprietario();
-            else if(op2 == "2")
-                editarArmazem();
-            else if(op2 == "3")
-                editarProduto();
-            else if(op2 == "4")
-                editarFuncionario();
-            else
-                JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
-        }
-        else if(op == "3"){
-            String op2 = JOptionPane.showInputDialog("Qual Exclusão você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
-            if(op2 == "1")
-                deletarProprietario();
-            else if(op2 == "2")
-                deletarArmazem();
-            else if(op2 == "3")
-                deletarProduto();
-            else if(op2 == "4")
-                deletarFuncionario();
-            else
-                JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
-        }
-        else if(op == "4"){
-            //ATENÇÃO
-            visualizarDadosArmazem(null, null, null);
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
+            }
+            String continuarString = JOptionPane.showInputDialog("Deseja realizar outra operação? 1-SIM 2-NAO");
+            continuar = Integer.parseInt(continuarString);
         }
     }
 
