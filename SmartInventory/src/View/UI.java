@@ -24,16 +24,17 @@ public class UI {
         JOptionPane.showMessageDialog(null, "Bem vindo ao Sistema Smart Inventory");
         String op = JOptionPane.showInputDialog("Qual operação você deseja realizar? 1 - Cadastrar 2 - Editar 3 - Excluir 4 - Vizualizar");
         if(op == "1"){
-
+            String op2 = JOptionPane.showInputDialog("Qual cadastro você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
         }
         else if(op == "2"){
-
+            String op2 = JOptionPane.showInputDialog("Qual Edição você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
         }
         else if(op == "3"){
-
+            String op2 = JOptionPane.showInputDialog("Qual Exclusão você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
         }
         else if(op == "4"){
-
+            //ATENÇÃO
+            visualizarDadosArmazem(null, null, null);
         }
         else{
             JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);     
