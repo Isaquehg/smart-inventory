@@ -345,25 +345,35 @@ public class UI {
 
         //Selecting products from this specific storage
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        ArrayList<Produto> produtosArmazem = produtoDAO.selectProduto(armazemEscolhido.getIdArmazem());
+        ArrayList<Produto> produtos = produtoDAO.selectProduto();
+        ArrayList<Produto> produtosArmazem = new ArrayList<>();
+        //Picking the products up from this storage
+        for (int i = 0; i < pkProdutos.size(); i++) {
+            if(produtos.get(i).getIdProduto() == pkProdutos.get(i)){
+                produtosArmazem.add(produtos.get(i));
+            }
+        }
         
         //Displaying data from this storage using JTable
         JTable tabelaProdutos = new JTable();
         DefaultTableModel dtm = new DefaultTableModel(0, 0);
        
        //Header
-       String header[] = new String[] { "ID Produto", "Nome", "Categoria",
-                   "Peso", "Quantidade"};
+       String header[] = new String[] { 
+        "ID Produto", "Nome", "Categoria", "Peso", "Quantidade"
+        };
        
        //Adding header on Table Model
         dtm.setColumnIdentifiers(header);
             //set model into the table object
             tabelaProdutos.setModel(dtm);
        
-        //Adding data dinamically to table
+       //Adding data dinamically to table
        for (int i = 0; i < produtosArmazem.size(); i ++) {
                dtm.addRow(new Object[] { "data", "data", "data",
                        "data", "data"});
         }
+        tabelaProdutos.setSize(800, 350);
+        tabelaProdutos.setVisible(true);
     }
 }

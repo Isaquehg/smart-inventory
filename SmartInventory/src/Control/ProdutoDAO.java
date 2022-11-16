@@ -131,17 +131,14 @@ public class ProdutoDAO extends ConnectionDAO{
     }
 
     //SELECT
-    //SELECT somente dos produtos em determinado armazem
-    public ArrayList<Produto> selectProduto(int idArmazem) {
+    public ArrayList<Produto> selectProduto() {
         ArrayList<Produto> produtos = new ArrayList<>();
         connectToDB();
-        String sql = "SELECT * FROM Produto, Armazem_has_Produto where Armazem_has_Produto.Armazem_idArmazem = ?";
+        String sql = "SELECT * FROM Produto";
 
         try {
-            pst = con.prepareStatement(sql);
-            pst.setInt(1, idArmazem);
-            pst.execute();
-            rs = pst.executeQuery();
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
 
             System.out.println("Lista de produtos: ");
 
@@ -150,10 +147,10 @@ public class ProdutoDAO extends ConnectionDAO{
                 Produto produtoAux = new Produto(rs.getInt("idProduto"), rs.getString("nome"), rs.getString("categoria"), rs.getInt("peso"), rs.getInt("quantidade"));
                 
                 //Retirar print e enviar dados para UI
-                System.out.println("Nome = " + produtoAux.getIdProduto());
+                System.out.println("ID = " + produtoAux.getIdProduto());
                 System.out.println("Nome = " + produtoAux.getNome());
                 System.out.println("Categoria = " + produtoAux.getCategoria());
-                System.out.println("Peso = " + produtoAux.getPeso() + "kg");
+                System.out.println("Peso = " + produtoAux.getPeso() + "g");
                 System.out.println("Quantidade = " + produtoAux.getQuantidade());
 
                 System.out.println("--------------------------------");
