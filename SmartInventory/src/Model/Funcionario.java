@@ -10,6 +10,7 @@ public class Funcionario {
         this.idFuncionario = idFuncionario;
         this.nome = nome;
         this.cpf = cpf;
+        this.idArmazem = idArmazem;
     }
 
     public int getIdFuncionario() {

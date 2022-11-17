@@ -14,7 +14,7 @@ public class FuncionarioDAO extends ConnectionDAO{
 
         connectToDB();
 
-        String sql = "INSERT INTO Funcionario (idFuncionario, nome, cpf, Armazem_idArmazem) values(?, ?, ?)";
+        String sql = "INSERT INTO Funcionario (idFuncionario, nome, cpf, Armazem_idArmazem) values(?, ?, ?, ?)";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1, funcionario.getIdFuncionario());

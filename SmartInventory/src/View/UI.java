@@ -100,7 +100,7 @@ public class UI {
         armazemHasProduto.setIdArmazem(idArmazem);
         boolean success = armazemDAO.createArmazem(armazem, armazemHasProduto);
         if(success)
-            JOptionPane.showConfirmDialog(null, "Armazém cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Armazém cadastrado com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Cadastro não concluído","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -117,7 +117,7 @@ public class UI {
         ArmazemDAO armazemDAO = new ArmazemDAO();
         boolean success = armazemDAO.updateArmazem(armazem);
         if(success)
-        JOptionPane.showConfirmDialog(null, "Armazém editado com sucesso!");
+        JOptionPane.showMessageDialog(null, "Armazém editado com sucesso!");
         else
         JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -130,7 +130,7 @@ public class UI {
         ArmazemDAO armazemDAO = new ArmazemDAO();
         boolean success = armazemDAO.deleteArmazem(idArmazem);
         if(success)
-        JOptionPane.showConfirmDialog(null, "Armazém excluído com sucesso!");
+        JOptionPane.showMessageDialog(null, "Armazém excluído com sucesso!");
         else
         JOptionPane.showMessageDialog(null, "Exclusão não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -145,7 +145,7 @@ public class UI {
         ProprietarioDAO proprietarioDAO = new ProprietarioDAO();
         boolean success = proprietarioDAO.createProprietario(proprietario);
         if(success)
-            JOptionPane.showConfirmDialog(null, "Proprietario cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Proprietario cadastrado com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Cadastro não concluído","Aviso!", JOptionPane.WARNING_MESSAGE);
 
@@ -161,7 +161,7 @@ public class UI {
         ProprietarioDAO proprietarioDAO = new ProprietarioDAO();
         boolean success = proprietarioDAO.updateProprietario(proprietario);
         if(success)
-            JOptionPane.showConfirmDialog(null, "Proprietario editado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Proprietario editado com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -174,7 +174,7 @@ public class UI {
         ProprietarioDAO proprietarioDAO = new ProprietarioDAO();
         boolean success = proprietarioDAO.deleteProprietario(idProprietario);
         if(success)
-            JOptionPane.showConfirmDialog(null, "Proprietário excluído com sucesso!");
+            JOptionPane.showMessageDialog(null, "Proprietário excluído com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Exclusão não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
             }
@@ -192,7 +192,7 @@ public class UI {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         boolean success = funcionarioDAO.createFuncionario(funcionario);
         if(success)
-            JOptionPane.showConfirmDialog(null, "Funcionário cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Cadastro não concluído","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -210,7 +210,7 @@ public class UI {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         boolean success = funcionarioDAO.updateFuncionario(funcionario);
         if(success)
-            JOptionPane.showConfirmDialog(null, "Funcionário editado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Funcionário editado com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -223,7 +223,7 @@ public class UI {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         boolean success = funcionarioDAO.deleteFuncionario(idFuncionario);
         if(success)
-            JOptionPane.showConfirmDialog(null, "Funcionário excluído com sucesso!");
+            JOptionPane.showMessageDialog(null, "Funcionário excluído com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Exclusão não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -297,7 +297,7 @@ public class UI {
             choices[i] = String.valueOf(armazens.get(i).getIdArmazem());
         }
 
-        //Displaying armazens
+        //Displaying storages
         String idArmazemString = (String) JOptionPane.showInputDialog(null, "Escolha o armazém",
             "Visualização", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
         int idArmazemEscolhido = Integer.parseInt(idArmazemString);
@@ -320,7 +320,7 @@ public class UI {
             {armazemAux.getIdArmazem(),armazemAux.getEndereco(),armazemAux.getIdProprietario(), nFuncionariosArmazem}
         };
         Object[] cols = {
-            "ID","Endereço","Proprietario","Numero de Funcionarios"
+            "ID", "Endereço", "ID Proprietario", "Numero de Funcionarios"
         };
         JTable table = new JTable(rows, cols);
         JOptionPane.showMessageDialog(null, new JScrollPane(table));
@@ -370,10 +370,10 @@ public class UI {
        
        //Adding data dinamically to table
        for (int i = 0; i < produtosArmazem.size(); i ++) {
-               dtm.addRow(new Object[] { "data", "data", "data",
-                       "data", "data"});
+               dtm.addRow(new Object[] { 
+                    produtosArmazem.get(i).getIdProduto(), produtosArmazem.get(i).getNome(), produtosArmazem.get(i).getCategoria(), produtosArmazem.get(i).getPeso(), produtosArmazem.get(i).getQuantidade()
+                });
         }
-        tabelaProdutos.setSize(800, 350);
-        tabelaProdutos.setVisible(true);
+        JOptionPane.showMessageDialog(null, new JScrollPane(tabelaProdutos));
     }
 }
