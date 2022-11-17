@@ -1,19 +1,24 @@
 package Model;
 
 /**
- * Classe destinada 
+ * Class for Product Model
  * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */
 public class Produto {
+    /**
+     * Produto table attributes
+     */
     private int idProduto;
     private String nome;
     private int peso;
     private String categoria;
     private int quantidade;
-    private Armazem[] armazens = new Armazem[25];
 
+    /**
+     * Produto constructor and Getters
+     */
     public Produto(int idProduto, String nome, String categoria, int peso, int quantidade){
         this.idProduto = idProduto;
         this.nome = nome;

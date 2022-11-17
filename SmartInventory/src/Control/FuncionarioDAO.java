@@ -5,13 +5,24 @@ import Model.Funcionario;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Class for DAO operations on Funcionario table
+ * @author Isaque
+ * @version 1.0
+ * @since 11/03/2022
+ */
 public class FuncionarioDAO extends ConnectionDAO{
     //DAO - Data Access Object
     boolean sucesso = false;
 
     //INSERT
+    /**
+     * Function for insert values into Funcionario table
+     * @param funcionario receives a Funcionario object
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean createFuncionario(Funcionario funcionario) {
-
+        //Initial DB connection
         connectToDB();
 
         String sql = "INSERT INTO Funcionario (idFuncionario, nome, cpf, Armazem_idArmazem) values(?, ?, ?, ?)";
@@ -38,10 +49,14 @@ public class FuncionarioDAO extends ConnectionDAO{
     }
 
     //UPDATE
+    /**
+     * Function for updating the Funcionario table from a Funcionario object data
+     * @param funcionario receives a Funcionario object
+     * @return a boolean value indicating if the operation was successfully
+     */
     public boolean updateFuncionario(Funcionario funcionario) {
         connectToDB();
         String sql1 = "UPDATE Funcionario SET nome=?, cpf=?, Armazem_idArmazem=? where id=?";
-        //alterar estoque
         try {
             pst = con.prepareStatement(sql1);
             pst.setString(1, funcionario.getNome());
@@ -65,6 +80,11 @@ public class FuncionarioDAO extends ConnectionDAO{
     }
 
     //DELETE
+    /**
+     * Function for deleting elements from the Funcionario table
+     * @param id represents the idFuncionario which will be removed
+     * @return a boolean value indicating if the operation was successfully
+     */
     public boolean deleteFuncionario(int id) {
         connectToDB();
         String sql = "DELETE FROM Funcionario where id=?";
@@ -88,7 +108,10 @@ public class FuncionarioDAO extends ConnectionDAO{
     }
 
     //SELECT
-    //Retorna apenas endereco e proprietario do armazem
+    /**
+     * Function for getting Funcionario elements from DB table
+     * @return a ArrayList containing Funcionario objects references from that SQL selection
+     */
     public ArrayList<Funcionario> selectFuncionario() {
         ArrayList<Funcionario> funcionarios = new ArrayList<>();
         connectToDB();

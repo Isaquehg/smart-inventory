@@ -1,10 +1,22 @@
 package Model;
 
+/**
+ * Class for Proprietario model
+ * @author Isaque
+ * @version 1.0
+ * @since 11/03/2022
+ */
 public class Proprietario {
+    /** 
+     * Proprietario table attributes
+    */
     private int idProprietario;
     private String nome;
     private int armazemID;
 
+    /**
+     * Proprietario constructor and Getters
+     */
     public Proprietario(int idProprietario, String nome){
         this.idProprietario = idProprietario;
         this.nome = nome;
@@ -14,23 +26,11 @@ public class Proprietario {
         return idProprietario;
     }
 
-    public void setIdProprietario(int idProprietario) {
-        this.idProprietario = idProprietario;
-    }
-
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public int getArmazemID() {
         return armazemID;
-    }
-
-    public void setArmazemID(int armazemID) {
-        this.armazemID = armazemID;
     }
 }

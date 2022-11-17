@@ -1,24 +1,27 @@
 package Control;
 
 import Model.Produto;
-import Model.Armazem;
 import Model.ArmazemHasProduto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Classe destinada 
+ * Class for DAO operations on Produto table
  * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */
 public class ProdutoDAO extends ConnectionDAO{
-
     //DAO - Data Access Object
-    boolean sucesso = false; //Para saber se funcionou
+    boolean sucesso = false;//Successfully operation
 
     //INSERT
+    /** Function for inserting elements into Produto table
+     * @param produto is a Produto object
+     * @param armazemHasProduto is the ArmazemHasProduto object
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean createProduto(Produto produto, ArmazemHasProduto armazemHasProduto) {
         connectToDB();
 
@@ -30,11 +33,8 @@ public class ProdutoDAO extends ConnectionDAO{
             pst.setString(2, produto.getNome());
             pst.setString(3, produto.getCategoria());
             pst.setInt(4, produto.getPeso());
-            pst.setInt(5, 0);//Zerar o estoque quando cadastrar
+            pst.setInt(5, 0);//Inventory amount = zero when registered
             pst.execute();
-
-            //Passando idProduto para atualização da tabela ArmazemHasProduto
-            armazemHasProduto.setIdProduto(produto.getIdProduto());
 
             sucesso = true;
         } catch (SQLException exc) {
@@ -52,10 +52,13 @@ public class ProdutoDAO extends ConnectionDAO{
     }
 
     //UPDATE
-    //P.S.: Function overloading
-    //Case 1: Changing registration data and location
-    //Case 2: Changing quantity in inventory
-    //Changing product storage location
+    /**
+     * Function for updating Product registration data from table values
+     * This one is not used for changing product inventory amount
+     * @param produto Produto object containing new values
+     * @param idArmazem integer representing the storage the product is
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean updateProduto(Produto produto, int idArmazem) {
         connectToDB();
         String sql2 = "UPDATE Produto SET nome=?, peso=?, categoria=? where id=?";
@@ -82,6 +85,14 @@ public class ProdutoDAO extends ConnectionDAO{
         }
         return sucesso;
     }
+
+    /**
+     * Function overloading
+     * This one represents the product inventory amount update
+     * @param id product ID to be updated
+     * @param quantidade new product amount
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean updateProduto(int id, int quantidade){
         connectToDB();
         String sql1 = "UPDATE Produto SET quantidade=? where id=?";
@@ -108,6 +119,11 @@ public class ProdutoDAO extends ConnectionDAO{
     }
 
     //DELETE
+    /**
+     * Function for deleting Product itens
+     * @param id represents product ID to be deleted
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean deleteProduto(int id) {
         connectToDB();
         String sql = "DELETE FROM Produto where id=?";
@@ -131,6 +147,10 @@ public class ProdutoDAO extends ConnectionDAO{
     }
 
     //SELECT
+    /**
+     * Funtion for selecting all Product elements from Produto table
+     * @return a ArraList containing Product object references
+     */
     public ArrayList<Produto> selectProduto() {
         ArrayList<Produto> produtos = new ArrayList<>();
         connectToDB();

@@ -1,17 +1,25 @@
 package Model;
 
 /**
- * Classe destinada 
+ * Class for Armazem model
  * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */
 public class Armazem {
+    /**
+     * Armazem table attributes
+     */
     private int idArmazem;
     private String endereco;
     private int idProprietario;
-    private Funcionario[] funcionarios = new Funcionario[100];
 
+    /**
+     * Constructor for Armazem
+     * @param idArmazem
+     * @param endereco
+     * @param idProprietario
+     */
     public Armazem(int idArmazem, String endereco, int idProprietario){
         this.idArmazem = idArmazem;
         this.endereco = endereco;
@@ -22,23 +30,11 @@ public class Armazem {
         return idArmazem;
     }
 
-    public void setIdArmazem(int idArmazem) {
-        this.idArmazem = idArmazem;
-    }
-
     public String getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
     public int getIdProprietario() {
         return idProprietario;
-    }
-
-    public void setIdProprietario(int idProprietario) {
-        this.idProprietario = idProprietario;
     }
 }

@@ -5,13 +5,23 @@ import java.util.ArrayList;
 
 import Model.Proprietario;
 
+/**
+ * Class for DAO operations on Proprietario table
+ * @author Isaque
+ * @version 1.0
+ * @since 11/03/2022
+ */
 public class ProprietarioDAO extends ConnectionDAO{
     //DAO - Data Access Object
     boolean sucesso = false;
 
     //INSERT
+    /**
+     * FUnction for inserting new elements into Proprietario table
+     * @param proprietario represents a Proprietario object
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean createProprietario(Proprietario proprietario) {
-
         connectToDB();
 
         String sql = "INSERT INTO Proprietario (idProprietario, nome) values(?, ?)";
@@ -36,10 +46,14 @@ public class ProprietarioDAO extends ConnectionDAO{
     }
 
     //UPDATE
+    /**
+     * Function for updating Proprietario table
+     * @param proprietario represents a Proprietario object
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean updateProprietario(Proprietario proprietario) {
         connectToDB();
         String sql1 = "UPDATE Proprietario SET nome=? where id=?";
-        //alterar estoque
         try {
             pst = con.prepareStatement(sql1);
             pst.setString(1, proprietario.getNome());
@@ -61,6 +75,11 @@ public class ProprietarioDAO extends ConnectionDAO{
     }
 
     //DELETE
+    /**
+     * Function for deleting elements on Proprietario table
+     * @param id represents the element ID to be deleted
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean deleteProprietario(int id) {
         connectToDB();
         String sql = "DELETE FROM Proprietario where id=?";
@@ -84,6 +103,10 @@ public class ProprietarioDAO extends ConnectionDAO{
     }
 
     //SELECT
+    /**
+     * Function for selecting all elements from Proprietario table
+     * @return a ArraList cointaining Proprietario obejcts references
+     */
     public ArrayList<Proprietario> selectProprietario() {
         ArrayList<Proprietario> proprietarios = new ArrayList<>();
         connectToDB();

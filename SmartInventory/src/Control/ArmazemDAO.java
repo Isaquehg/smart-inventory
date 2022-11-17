@@ -6,11 +6,23 @@ import Model.ArmazemHasProduto;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Class for DAO operations on Armazem table
+ * @author Isaque
+ * @version 1.0
+ * @since 11/03/2022
+ */
 public class ArmazemDAO extends ConnectionDAO{
     //DAO - Data Access Object
-    boolean sucesso = false; //Para saber se funcionou
+    boolean sucesso = false;//Successfully operation
 
     //INSERT
+    /**
+     * Function for inserting itens in Armazem table
+     * @param armazem receives a Armazem object
+     * @param armazemHasProduto receives a ArmazemHasProduto object, which is a intermediate table
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean createArmazem(Armazem armazem, ArmazemHasProduto armazemHasProduto) {
         connectToDB();
 
@@ -39,6 +51,11 @@ public class ArmazemDAO extends ConnectionDAO{
     }
 
     //UPDATE
+    /**
+     * Function for updating itens in Armazem table
+     * @param armazem receives a Armazem object
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean updateArmazem(Armazem armazem) {
         connectToDB();
         String sql1 = "UPDATE Armazem SET endereco=?, Proprietario_idProprietario=? where idArmazem=?";
@@ -65,6 +82,11 @@ public class ArmazemDAO extends ConnectionDAO{
     }
 
     //DELETE
+    /**
+     * Function for deleting itens in Armazem table
+     * @param id receives a storage ID indicating which one must be removed
+     * @return a boolean value, indicating if the operation was successful
+     */
     public boolean deleteArmazem(int id) {
         connectToDB();
         String sql = "DELETE FROM Armazem where idArmazem=?";
@@ -88,7 +110,10 @@ public class ArmazemDAO extends ConnectionDAO{
     }
 
     //SELECT
-    //Retorna id, endereco e proprietario do armazem
+    /**
+     * Function for selecting all itens in Armazem table
+     * @return a ArraList containing Armazem objects references
+     */
     public ArrayList<Armazem> selectArmazem() {
         ArrayList<Armazem> armazens = new ArrayList<>();
         connectToDB();

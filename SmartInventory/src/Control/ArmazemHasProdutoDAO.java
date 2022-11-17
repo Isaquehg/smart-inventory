@@ -4,10 +4,20 @@ import Model.ArmazemHasProduto;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+/**
+ * Class for DAO operations on Armazem_has_Produto table
+ * @author Isaque
+ * @version 1.0
+ * @since 11/03/2022
+ */
 public class ArmazemHasProdutoDAO extends ConnectionDAO{
     boolean sucesso = false;
 
-    //Realizar a atualização da tabela ArmazemhasProduto após a inserção de um novo produto
+    //updating Armazem_has_Produto after modifying Produto or Armazem
+    /**
+     * Function for inserting values into table Armazem_has_Produto
+     * @param armazemHasProduto receives a ArmazemHasProduto object
+     */
     public void createAhasP(ArmazemHasProduto armazemHasProduto) {
         connectToDB();
 
@@ -31,6 +41,11 @@ public class ArmazemHasProdutoDAO extends ConnectionDAO{
             }
         }
     }
+
+    /**
+    * Function for selecting all values from table Armazem_has_Produto
+    * @return a HashMap which elements cointain a Key-Value pair representing idArmazem and idProduto respectively
+    */
     public HashMap<Integer, Integer> selectAhasP(){
         HashMap<Integer, Integer> aHasProdutos = new HashMap<>();
         connectToDB();
@@ -46,7 +61,6 @@ public class ArmazemHasProdutoDAO extends ConnectionDAO{
                 aHasProdutoAux.setIdArmazem(rs.getInt("Armazem_idArmazem"));
                 aHasProdutoAux.setIdProduto(rs.getInt("Produto_idProduto"));
 
-                //Retirar print e enviar dados para UI
                 System.out.println("ID Armazem = " + aHasProdutoAux.getIdArmazem());
                 System.out.println("ID Produto = " + aHasProdutoAux.getIdProduto());
 
@@ -71,10 +85,16 @@ public class ArmazemHasProdutoDAO extends ConnectionDAO{
 
     //UPDATE
     //Updating storage where the product is
+    /**
+     * Function for updating the relationship between tables Armazem and Produto
+     * @param idProduto is the ID from the product which is in some storage
+     * @param idArmazem is the ID in which the product is in
+     * @return a boolean value representing the operation status
+     */
     public boolean updateAhasP(int idProduto, int idArmazem) {
         connectToDB();
         String sql1 = "UPDATE Armazem_has_Produto SET Armazem_idArmazem=? where Produto_idProduto=?";
-        //alterar estoque
+        //Changing inventory values
         try {
             pst = con.prepareStatement(sql1);
             pst.setInt(1, idArmazem);

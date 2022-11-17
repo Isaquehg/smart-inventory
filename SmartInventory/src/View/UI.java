@@ -18,13 +18,22 @@ import Model.Produto;
 import Model.Proprietario;
 
 /**
- * Classe destinada à parte visual do sistema para interação com usuário
+ * Class for User interactivity
  * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */
 public class UI {
-    //Interface principal com usuário
+    //Main activity
+    /**
+     * Class for starting user interaction
+     * Operations are divided into 4 sections:
+     * 1 - Registration
+     * 2 - Update
+     * 3 - Delete
+     * 4 - Visualization
+     * Inside of them, the user can choose among the tables to do the selected operation
+     */
     public void inicio(){
         JOptionPane.showMessageDialog(null, "Bem vindo!", "Smart Inventory", JOptionPane.INFORMATION_MESSAGE);
 
@@ -85,6 +94,9 @@ public class UI {
         }
     }
 
+    /**
+     * Funtion for storage registration UI
+     */
     private void cadastrarArmazem(){
         //User input
         String idArmazemString = JOptionPane.showInputDialog("Entre com o ID do armazém");
@@ -104,6 +116,10 @@ public class UI {
         else
             JOptionPane.showMessageDialog(null, "Cadastro não concluído","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
+
+    /**
+     * Funtion for storage registration update UI
+     */
     private void editarArmazem(){
         //User input
         String idArmazemString = JOptionPane.showInputDialog("Entre com o ID do armazém a editar");
@@ -121,6 +137,10 @@ public class UI {
         else
         JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
+
+    /**
+     * Funtion for storage delete UI
+     */
     private void deletarArmazem(){
         //User input
         String idArmazemString = JOptionPane.showInputDialog("Entre com o ID do armazém a excluir");
@@ -134,6 +154,10 @@ public class UI {
         else
         JOptionPane.showMessageDialog(null, "Exclusão não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
+
+    /**
+     * Funtion for owner registration UI
+     */
     private void cadastrarProprietario(){
         //User input
         String idProprietarioString = JOptionPane.showInputDialog("Entre com o ID do Proprietário");
@@ -150,6 +174,10 @@ public class UI {
             JOptionPane.showMessageDialog(null, "Cadastro não concluído","Aviso!", JOptionPane.WARNING_MESSAGE);
 
     }
+
+    /**
+     * Funtion for owner update UI
+     */
     private void editarProprietario(){
         //User input
         String idProprietarioString = JOptionPane.showInputDialog("Entre com o ID do Proprietário");
@@ -165,6 +193,10 @@ public class UI {
         else
             JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
+
+    /**
+     * Funtion for owner delete UI
+     */
     private void deletarProprietario(){
         //User input
         String idProprietarioString = JOptionPane.showInputDialog("Entre com o ID do Proprietário a Excluir");
@@ -177,7 +209,11 @@ public class UI {
             JOptionPane.showMessageDialog(null, "Proprietário excluído com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Exclusão não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
-            }
+    }
+
+    /**
+     * Funtion for employee registration UI
+     */
     private void cadastrarFuncionario(){
         //User input
         String idFuncionarioString = JOptionPane.showInputDialog("Entre com o ID do Funcionario");
@@ -196,6 +232,10 @@ public class UI {
         else
             JOptionPane.showMessageDialog(null, "Cadastro não concluído","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
+
+    /**
+     * Funtion for employee update UI
+     */
     private void editarFuncionario(){
         //User input
         String idFuncionarioString = JOptionPane.showInputDialog("Entre com o ID do Funcionario");
@@ -214,6 +254,10 @@ public class UI {
         else
             JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
+
+    /**
+     * Funtion for employee delete UI
+     */
     private void deletarFuncionario(){
         //User input
         String idFuncionarioString = JOptionPane.showInputDialog("Entre com o ID do Funcionario a excluir");
@@ -228,6 +272,9 @@ public class UI {
             JOptionPane.showMessageDialog(null, "Exclusão não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
 
+    /**
+     * Funtion for product registration UI
+     */
     private void cadastrarProduto(){
         //User input
         String nomeProduto = JOptionPane.showInputDialog("Insira o nome do produto: ");
@@ -248,6 +295,9 @@ public class UI {
     }
 
     //Inserting inventory to a product in that storage
+    /**
+     * Funtion for product amount insertion UI
+     */
     private void editarProduto(){
         //User input
         String IdProdutoString = JOptionPane.showInputDialog("Insira o ID do produto a editar");
@@ -270,6 +320,9 @@ public class UI {
         produtoDAO.updateProduto(produto, idArmazemProduto);
     }
 
+    /**
+     * Funtion for product delete UI
+     */
     private void deletarProduto(){
         //User input
         String IdProdutoString = JOptionPane.showInputDialog("Insira o ID do produto a excluir");
@@ -281,6 +334,9 @@ public class UI {
     }
 
     //Storages drop-down list
+    /**
+     * Function for storage registration details UI
+     */
     private void visualizarDadosArmazem(){
         //Creating Auxliar instances
         ArmazemDAO armazemDAO = new ArmazemDAO();
@@ -330,6 +386,9 @@ public class UI {
     }
 
     //Here's gonna be shown only products from that storage
+    /**
+     * UI for displaying products from some storage
+     */
     private void visualizarProdutosArmazem(Armazem armazemEscolhido){
         //Generating auxliar DAO instances for SELECT
         ArmazemHasProdutoDAO armazemHasProdutoDAO = new ArmazemHasProdutoDAO();
