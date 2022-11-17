@@ -10,7 +10,7 @@ import java.sql.*;
  */
 public abstract class ConnectionDAO {
     /**
-     * Instances from Java.Sql for iterating through the table's values
+     * Instances from Java Sql for iterating through the table's values
      */
     Connection con; //Connection
     PreparedStatement pst; //prepared SQL Query
