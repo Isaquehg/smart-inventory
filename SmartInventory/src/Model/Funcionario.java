@@ -13,16 +13,16 @@ public class Funcionario {
     private int idFuncionario;
     private String nome;
     private String cpf;
-    private int idArmazem;
+    private int idEstoque;
 
     /**
      * Constructor and Getters & Setters
     */
-    public Funcionario(int idFuncionario, String nome, String cpf, int idArmazem){
+    public Funcionario(int idFuncionario, String nome, String cpf, int idEstoque){
         this.idFuncionario = idFuncionario;
         this.nome = nome;
         this.cpf = cpf;
-        this.idArmazem = idArmazem;
+        this.idEstoque = idEstoque;
     }
 
     public int getIdFuncionario() {
@@ -37,7 +37,7 @@ public class Funcionario {
         return cpf;
     }
 
-    public int getIDArmazem(){
-        return idArmazem;
+    public int getIdEstoque(){
+        return idEstoque;
     }
 }

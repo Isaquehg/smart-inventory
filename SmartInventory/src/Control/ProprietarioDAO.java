@@ -53,7 +53,7 @@ public class ProprietarioDAO extends ConnectionDAO{
      */
     public boolean updateProprietario(Proprietario proprietario) {
         connectToDB();
-        String sql1 = "UPDATE Proprietario SET nome=? where id=?";
+        String sql1 = "UPDATE Proprietario SET nome=? where idProprietario=?";
         try {
             pst = con.prepareStatement(sql1);
             pst.setString(1, proprietario.getNome());
@@ -82,7 +82,7 @@ public class ProprietarioDAO extends ConnectionDAO{
      */
     public boolean deleteProprietario(int id) {
         connectToDB();
-        String sql = "DELETE FROM Proprietario where id=?";
+        String sql = "DELETE FROM Proprietario where idProprietario=?";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1, id);

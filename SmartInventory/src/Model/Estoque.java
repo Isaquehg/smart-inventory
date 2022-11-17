@@ -1,33 +1,33 @@
 package Model;
 
 /**
- * Class for Armazem model
+ * Class for Estoque model
  * @author Isaque
  * @version 1.0
  * @since 11/03/2022
  */
-public class Armazem {
+public class Estoque {
     /**
-     * Armazem table attributes
+     * Estoque table attributes
      */
-    private int idArmazem;
+    private int idEstoque;
     private String endereco;
     private int idProprietario;
 
     /**
-     * Constructor for Armazem
-     * @param idArmazem
+     * Constructor for Estoque
+     * @param idEstoque
      * @param endereco
      * @param idProprietario
      */
-    public Armazem(int idArmazem, String endereco, int idProprietario){
-        this.idArmazem = idArmazem;
+    public Estoque(int idEstoque, String endereco, int idProprietario){
+        this.idEstoque = idEstoque;
         this.endereco = endereco;
         this.idProprietario = idProprietario;
     }
 
-    public int getIdArmazem() {
-        return idArmazem;
+    public int getIdEstoque() {
+        return idEstoque;
     }
 
     public String getEndereco() {

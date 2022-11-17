@@ -22,10 +22,10 @@ public class ProdutoDAO extends ConnectionDAO{
      * @param armazemHasProduto is the ArmazemHasProduto object
      * @return a boolean value, indicating if the operation was successful
      */
-    public boolean createProduto(Produto produto, ArmazemHasProduto armazemHasProduto) {
+    public boolean createProduto(Produto produto) {
         connectToDB();
 
-        String sqlP = "INSERT INTO Produto (idProduto, nome, categoria, peso, quantidade) VALUES(?, ?, ?, ?, ?)";
+        String sqlP = "INSERT INTO Produto (idProduto, nome, categoria, peso) VALUES(?, ?, ?, ?)";
         try {
             //Tabela Produto
             pst = con.prepareStatement(sqlP);
@@ -33,7 +33,6 @@ public class ProdutoDAO extends ConnectionDAO{
             pst.setString(2, produto.getNome());
             pst.setString(3, produto.getCategoria());
             pst.setInt(4, produto.getPeso());
-            pst.setInt(5, 0);//Inventory amount = zero when registered
             pst.execute();
 
             sucesso = true;
@@ -59,7 +58,7 @@ public class ProdutoDAO extends ConnectionDAO{
      * @param idArmazem integer representing the storage the product is
      * @return a boolean value, indicating if the operation was successful
      */
-    public boolean updateProduto(Produto produto, int idArmazem) {
+    public boolean updateProduto(Produto produto) {
         connectToDB();
         String sql2 = "UPDATE Produto SET nome=?, peso=?, categoria=? where id=?";
 
@@ -93,11 +92,11 @@ public class ProdutoDAO extends ConnectionDAO{
      * @param quantidade new product amount
      * @return a boolean value, indicating if the operation was successful
      */
-    public boolean updateProduto(int id, int quantidade){
+    public boolean updateProduto(int id, int quantidade, int idArmazem){
         connectToDB();
-        String sql1 = "UPDATE Produto SET quantidade=? where id=?";
+        String sql1 = "UPDATE Produto SET quantidade=? where idProduto=?";
 
-        //alter product inventory amount
+        //modify product inventory amount
         try {
             pst = con.prepareStatement(sql1);
             pst.setInt(1, quantidade);
@@ -115,6 +114,15 @@ public class ProdutoDAO extends ConnectionDAO{
                 System.out.println("Erro: " + exc.getMessage());
             }
         }
+
+        //updating intermediate table
+        ArmazemHasProduto armazemHasProduto = new ArmazemHasProduto();
+        EstoqueHasProdutoDAO armazemHasProdutoDAO = new EstoqueHasProdutoDAO();
+
+        armazemHasProduto.setIdArmazem(idArmazem);
+        armazemHasProduto.setIdProduto(id);
+        armazemHasProdutoDAO.createAhasP(armazemHasProduto);
+
         return sucesso;
     }
 
@@ -126,7 +134,7 @@ public class ProdutoDAO extends ConnectionDAO{
      */
     public boolean deleteProduto(int id) {
         connectToDB();
-        String sql = "DELETE FROM Produto where id=?";
+        String sql = "DELETE FROM Produto where idProduto=?";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1, id);

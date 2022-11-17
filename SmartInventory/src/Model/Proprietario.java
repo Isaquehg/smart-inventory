@@ -12,7 +12,6 @@ public class Proprietario {
     */
     private int idProprietario;
     private String nome;
-    private int armazemID;
 
     /**
      * Proprietario constructor and Getters
@@ -28,9 +27,5 @@ public class Proprietario {
 
     public String getNome() {
         return nome;
-    }
-
-    public int getArmazemID() {
-        return armazemID;
     }
 }

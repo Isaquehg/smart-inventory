@@ -10,21 +10,19 @@ public class Produto {
     /**
      * Produto table attributes
      */
-    private int idProduto;
+    public int idProduto;
     private String nome;
     private int peso;
     private String categoria;
-    private int quantidade;
 
     /**
      * Produto constructor and Getters
      */
-    public Produto(int idProduto, String nome, String categoria, int peso, int quantidade){
+    public Produto(int idProduto, String nome, String categoria, int peso){
         this.idProduto = idProduto;
         this.nome = nome;
         this.peso = peso;
         this.categoria = categoria;
-        this.quantidade = quantidade;
     }
 
     public int getIdProduto(){
@@ -39,8 +37,4 @@ public class Produto {
     public int getPeso(){
         return peso;
     }
-    public int getQuantidade(){
-        return quantidade;
-    }
-
 }

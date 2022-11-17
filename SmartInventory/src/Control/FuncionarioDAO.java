@@ -56,7 +56,7 @@ public class FuncionarioDAO extends ConnectionDAO{
      */
     public boolean updateFuncionario(Funcionario funcionario) {
         connectToDB();
-        String sql1 = "UPDATE Funcionario SET nome=?, cpf=?, Armazem_idArmazem=? where id=?";
+        String sql1 = "UPDATE Funcionario SET nome=?, cpf=?, Armazem_idArmazem=? where idFuncionario=?";
         try {
             pst = con.prepareStatement(sql1);
             pst.setString(1, funcionario.getNome());

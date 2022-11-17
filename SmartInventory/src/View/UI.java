@@ -6,13 +6,14 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import Control.ArmazemDAO;
-import Control.ArmazemHasProdutoDAO;
+import Control.EstoqueDAO;
+import Control.EstoqueHasProdutoDAO;
 import Control.FuncionarioDAO;
+import Control.InserirEstoque;
 import Control.ProdutoDAO;
 import Control.ProprietarioDAO;
-import Model.Armazem;
-import Model.ArmazemHasProduto;
+import Model.Estoque;
+import Model.EstoqueHasProduto;
 import Model.Funcionario;
 import Model.Produto;
 import Model.Proprietario;
@@ -42,12 +43,12 @@ public class UI {
             String opString = JOptionPane.showInputDialog("Qual operação você deseja realizar? 1 - Cadastrar 2 - Editar 3 - Excluir 4 - Vizualizar");
             int op1 = Integer.parseInt(opString);
             if(op1 == 1){
-                String op2String = JOptionPane.showInputDialog("Qual cadastro você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
+                String op2String = JOptionPane.showInputDialog("Qual cadastro você deseja realizar?? 1 - Proprietario 2 - Estoque 3 - Produto 4 - Funcionario");
                 int op2 = Integer.parseInt(op2String);
                 if(op2 == 1)
                     cadastrarProprietario();
                 else if(op2 == 2)
-                    cadastrarArmazem();
+                    cadastrarEstoque();
                 else if(op2 == 3)
                     cadastrarProduto();
                 else if(op2 == 4)
@@ -56,26 +57,38 @@ public class UI {
                     JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
             }
             else if(op1 == 2){
-                String op2String = JOptionPane.showInputDialog("Qual Edição você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
+                String op2String = JOptionPane.showInputDialog("Qual Edição você deseja realizar?? 1 - Proprietario 2 - Estoque 3 - Produto 4 - Funcionario");
                 int op2 = Integer.parseInt(op2String);
-                if(op2 == 1)
+                if(op2 == 1){
                     editarProprietario();
-                else if(op2 == 2)
-                    editarArmazem();
-                else if(op2 == 3)
-                    editarProduto();
-                else if(op2 == 4)
+                }
+                else if(op2 == 2){
+                    editarEstoque();
+                }
+                else if(op2 == 3){
+                    String op3String = JOptionPane.showInputDialog("Você deseja cadastrar um novo produto ou inserir estoque? 1 - Editar dados de cadastro  2 - Alterar estoque");
+                    int op3 = Integer.parseInt(op3String);    
+                    if(op3 == 1){
+                        editarProduto();
+                    }
+                    else if(op3 == 2){
+                        editarEstoqueProduto();
+                    }
+                }
+                else if(op2 == 4){
                     editarFuncionario();
-                else
+                }
+                else{
                     JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
+                }
             }
             else if(op1 == 3){
-                String op2String = JOptionPane.showInputDialog("Qual Exclusão você deseja realizar?? 1 - Proprietario 2 - Armazem 3 - Produto 4 - Funcionario");
+                String op2String = JOptionPane.showInputDialog("Qual Exclusão você deseja realizar?? 1 - Proprietario 2 - Estoque 3 - Produto 4 - Funcionario");
                 int op2 = Integer.parseInt(op2String);
                 if(op2 == 1)
                     deletarProprietario();
                 else if(op2 == 2)
-                    deletarArmazem();
+                    deletarEstoque();
                 else if(op2 == 3)
                     deletarProduto();
                 else if(op2 == 4)
@@ -84,7 +97,12 @@ public class UI {
                     JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
             }
             else if(op1 == 4){
-                visualizarDadosArmazem();
+                String op3String = JOptionPane.showInputDialog("o que você deseja visualizar? 1 - Produtos por Estoque  2 - Todos produtos");
+                int op3 = Integer.parseInt(op3String);
+                if(op3 == 1)
+                    visualizarDadosEstoque();
+                else if(op3 == 2)
+                    vizualizarTodosProdutos();
             }
             else{
                 JOptionPane.showMessageDialog(null, "Não é uma operação válida","Aviso!", JOptionPane.WARNING_MESSAGE);
@@ -97,20 +115,20 @@ public class UI {
     /**
      * Funtion for storage registration UI
      */
-    private void cadastrarArmazem(){
+    private void cadastrarEstoque(){
         //User input
-        String idArmazemString = JOptionPane.showInputDialog("Entre com o ID do armazém");
-        int idArmazem = Integer.parseInt(idArmazemString);
-        String enderecoArmazem = JOptionPane.showInputDialog("Entre com o Endereco do armazém");
-        String idProprietarioArmazemString = JOptionPane.showInputDialog("Entre com o ID do proprietario do armazém");
-        int idProprietarioArmazem = Integer.parseInt(idProprietarioArmazemString);
+        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do armazém");
+        int idEstoque = Integer.parseInt(idEstoqueString);
+        String enderecoEstoque = JOptionPane.showInputDialog("Entre com o Endereco do armazém");
+        String idProprietarioEstoqueString = JOptionPane.showInputDialog("Entre com o ID do proprietario do armazém");
+        int idProprietarioEstoque = Integer.parseInt(idProprietarioEstoqueString);
 
         //Passing data to DAO
-        Armazem armazem = new Armazem(idArmazem, enderecoArmazem, idProprietarioArmazem);
-        ArmazemDAO armazemDAO = new ArmazemDAO();
-        ArmazemHasProduto armazemHasProduto = new ArmazemHasProduto();
-        armazemHasProduto.setIdArmazem(idArmazem);
-        boolean success = armazemDAO.createArmazem(armazem, armazemHasProduto);
+        Estoque Estoque = new Estoque(idEstoque, enderecoEstoque, idProprietarioEstoque);
+        EstoqueDAO EstoqueDAO = new EstoqueDAO();
+        EstoqueHasProduto EstoqueHasProduto = new EstoqueHasProduto();
+        EstoqueHasProduto.setIdEstoque(idEstoque);
+        boolean success = EstoqueDAO.createEstoque(Estoque, EstoqueHasProduto);
         if(success)
             JOptionPane.showMessageDialog(null, "Armazém cadastrado com sucesso!");
         else
@@ -120,18 +138,18 @@ public class UI {
     /**
      * Funtion for storage registration update UI
      */
-    private void editarArmazem(){
+    private void editarEstoque(){
         //User input
-        String idArmazemString = JOptionPane.showInputDialog("Entre com o ID do armazém a editar");
-        int idArmazem = Integer.parseInt(idArmazemString);
-        String enderecoArmazem = JOptionPane.showInputDialog("Entre com o novo Endereco do armazém");
-        String idProprietarioArmazemString = JOptionPane.showInputDialog("Entre com o novo ID do proprietario do armazém");
-        int idProprietarioArmazem = Integer.parseInt(idProprietarioArmazemString);
+        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do armazém a editar");
+        int idEstoque = Integer.parseInt(idEstoqueString);
+        String enderecoEstoque = JOptionPane.showInputDialog("Entre com o novo Endereco do armazém");
+        String idProprietarioEstoqueString = JOptionPane.showInputDialog("Entre com o novo ID do proprietario do armazém");
+        int idProprietarioEstoque = Integer.parseInt(idProprietarioEstoqueString);
 
         //Passing data through DAO
-        Armazem armazem = new Armazem(idArmazem, enderecoArmazem, idProprietarioArmazem);
-        ArmazemDAO armazemDAO = new ArmazemDAO();
-        boolean success = armazemDAO.updateArmazem(armazem);
+        Estoque Estoque = new Estoque(idEstoque, enderecoEstoque, idProprietarioEstoque);
+        EstoqueDAO EstoqueDAO = new EstoqueDAO();
+        boolean success = EstoqueDAO.updateEstoque(Estoque);
         if(success)
         JOptionPane.showMessageDialog(null, "Armazém editado com sucesso!");
         else
@@ -141,14 +159,14 @@ public class UI {
     /**
      * Funtion for storage delete UI
      */
-    private void deletarArmazem(){
+    private void deletarEstoque(){
         //User input
-        String idArmazemString = JOptionPane.showInputDialog("Entre com o ID do armazém a excluir");
-        int idArmazem = Integer.parseInt(idArmazemString);
+        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do armazém a excluir");
+        int idEstoque = Integer.parseInt(idEstoqueString);
 
         //Passing data through DAO
-        ArmazemDAO armazemDAO = new ArmazemDAO();
-        boolean success = armazemDAO.deleteArmazem(idArmazem);
+        EstoqueDAO EstoqueDAO = new EstoqueDAO();
+        boolean success = EstoqueDAO.deleteEstoque(idEstoque);
         if(success)
         JOptionPane.showMessageDialog(null, "Armazém excluído com sucesso!");
         else
@@ -220,11 +238,11 @@ public class UI {
         int idFuncionario = Integer.parseInt(idFuncionarioString);
         String nomeFuncionario = JOptionPane.showInputDialog("Entre com o nome do Funcionário");
         String cpfFuncionario = JOptionPane.showInputDialog("Entre com o CPF do Funcionário");
-        String idArmazemFuncionarioString = JOptionPane.showInputDialog("Entre com o ID do Armazém");
-        int idArmazemFuncionario = Integer.parseInt(idArmazemFuncionarioString);
+        String idEstoqueFuncionarioString = JOptionPane.showInputDialog("Entre com o ID do Armazém");
+        int idEstoqueFuncionario = Integer.parseInt(idEstoqueFuncionarioString);
 
         //Passing data to DAO
-        Funcionario funcionario = new Funcionario(idFuncionario, nomeFuncionario, cpfFuncionario, idArmazemFuncionario);
+        Funcionario funcionario = new Funcionario(idFuncionario, nomeFuncionario, cpfFuncionario, idEstoqueFuncionario);
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         boolean success = funcionarioDAO.createFuncionario(funcionario);
         if(success)
@@ -242,11 +260,11 @@ public class UI {
         int idFuncionario = Integer.parseInt(idFuncionarioString);
         String nomeFuncionario = JOptionPane.showInputDialog("Entre com o novo nome do Funcionário");
         String cpfFuncionario = JOptionPane.showInputDialog("Entre com o novo CPF do Funcionário");
-        String idArmazemFuncionarioString = JOptionPane.showInputDialog("Entre com o novo ID do Armazém");
-        int idArmazemFuncionario = Integer.parseInt(idArmazemFuncionarioString);
+        String idEstoqueFuncionarioString = JOptionPane.showInputDialog("Entre com o novo ID do Armazém");
+        int idEstoqueFuncionario = Integer.parseInt(idEstoqueFuncionarioString);
 
         //Passing data to DAO
-        Funcionario funcionario = new Funcionario(idFuncionario, nomeFuncionario, cpfFuncionario, idArmazemFuncionario);
+        Funcionario funcionario = new Funcionario(idFuncionario, nomeFuncionario, cpfFuncionario, idEstoqueFuncionario);
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         boolean success = funcionarioDAO.updateFuncionario(funcionario);
         if(success)
@@ -287,11 +305,8 @@ public class UI {
         //Send data to DAO
         Produto produto = new Produto(IdProduto, nomeProduto, categoriaProduto, pesoProduto, 0);
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        //Passing ID to intermediate table Armazem_has_Produtos
-        ArmazemHasProduto armazemHasProduto = new ArmazemHasProduto();
-        armazemHasProduto.setIdProduto(IdProduto);
 
-        produtoDAO.createProduto(produto, armazemHasProduto);
+        produtoDAO.createProduto(produto);
     }
 
     //Inserting inventory to a product in that storage
@@ -306,18 +321,24 @@ public class UI {
         String pesoString = JOptionPane.showInputDialog("Insira o novo peso do produto");
         int pesoProduto = Integer.parseInt(pesoString);
         String categoriaProduto = JOptionPane.showInputDialog("Insira a nova categoria do produto");
-        String idArmazemProdutoString = JOptionPane.showInputDialog("Insira o novo ID do armazém do produto");
-        int idArmazemProduto = Integer.parseInt(idArmazemProdutoString);
 
         //Send data to DAO
         Produto produto = new Produto(IdProduto, nomeProduto, categoriaProduto, pesoProduto, 0);
         ProdutoDAO produtoDAO = new ProdutoDAO();
 
-        //Passing ID to intermediate table Armazem_has_Produtos
-        ArmazemHasProduto armazemHasProduto = new ArmazemHasProduto();
-        armazemHasProduto.setIdArmazem(idArmazemProduto);
+        produtoDAO.updateProduto(produto);
+    }
 
-        produtoDAO.updateProduto(produto, idArmazemProduto);
+    private void editarEstoqueProduto(){
+        //User input
+        String quantidadeString = JOptionPane.showInputDialog("Insira a quantidade desse produto");
+        int quantidade = Integer.parseInt(quantidadeString);
+        String idEstoqueProdutoString = JOptionPane.showInputDialog("Insira o ID do Estoque que esta o estoque");
+        int idEstoqueProduto = Integer.parseInt(idEstoqueProdutoString);
+
+        //Send data to DAO
+        InserirEstoque inserirEstoque = new InserirEstoque();
+        
     }
 
     /**
@@ -337,43 +358,43 @@ public class UI {
     /**
      * Function for storage registration details UI
      */
-    private void visualizarDadosArmazem(){
+    private void visualizarDadosEstoque(){
         //Creating Auxliar instances
-        ArmazemDAO armazemDAO = new ArmazemDAO();
+        EstoqueDAO EstoqueDAO = new EstoqueDAO();
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
         //Getting SELECT from DAO
-        ArrayList<Armazem> armazens = armazemDAO.selectArmazem();
+        ArrayList<Estoque> armazens = EstoqueDAO.selectEstoque();
         ArrayList<Funcionario> funcionarios = funcionarioDAO.selectFuncionario();
 
         //Searching for storages
-        Armazem armazemAux = null;
+        Estoque EstoqueAux = null;
         String[] choices = new String[100];
         for (int i = 0; i < armazens.size(); i++) {
-            choices[i] = String.valueOf(armazens.get(i).getIdArmazem());
+            choices[i] = String.valueOf(armazens.get(i).getIdEstoque());
         }
 
         //Displaying storages
-        String idArmazemString = (String) JOptionPane.showInputDialog(null, "Escolha o armazém",
+        String idEstoqueString = (String) JOptionPane.showInputDialog(null, "Escolha o armazém",
             "Visualização", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
-        int idArmazemEscolhido = Integer.parseInt(idArmazemString);
+        int idEstoqueEscolhido = Integer.parseInt(idEstoqueString);
         for (int i = 0; i < armazens.size(); i++) {
-            if(idArmazemEscolhido == armazens.get(i).getIdArmazem()){
-                armazemAux = armazens.get(i);
+            if(idEstoqueEscolhido == armazens.get(i).getIdEstoque()){
+                EstoqueAux = armazens.get(i);
             }
         }
 
         //Getting employees number from that storage
-        int nFuncionariosArmazem = 0;
+        int nFuncionariosEstoque = 0;
         for (int i = 0; i < funcionarios.size(); i++) {
-            if(funcionarios.get(i).getIDArmazem() == armazemAux.getIdArmazem()){
-                nFuncionariosArmazem ++;
+            if(funcionarios.get(i).getIDEstoque() == EstoqueAux.getIdEstoque()){
+                nFuncionariosEstoque ++;
             }
         }
 
         //Output using JTable
         Object[][] rows = {
-            {armazemAux.getIdArmazem(),armazemAux.getEndereco(),armazemAux.getIdProprietario(), nFuncionariosArmazem}
+            {EstoqueAux.getIdEstoque(),EstoqueAux.getEndereco(),EstoqueAux.getIdProprietario(), nFuncionariosEstoque}
         };
         Object[] cols = {
             "ID", "Endereço", "ID Proprietario", "Numero de Funcionarios"
@@ -382,34 +403,40 @@ public class UI {
         JOptionPane.showMessageDialog(null, new JScrollPane(table));
 
         //Displaying Products in this storage
-        visualizarProdutosArmazem(armazemAux);
+        visualizarProdutosEstoque(EstoqueAux);
     }
 
     //Here's gonna be shown only products from that storage
     /**
      * UI for displaying products from some storage
      */
-    private void visualizarProdutosArmazem(Armazem armazemEscolhido){
+    private void visualizarProdutosEstoque(Estoque EstoqueEscolhido){
         //Generating auxliar DAO instances for SELECT
-        ArmazemHasProdutoDAO armazemHasProdutoDAO = new ArmazemHasProdutoDAO();
-        HashMap<Integer, Integer> armazemHasProduto = armazemHasProdutoDAO.selectAhasP();
+        EstoqueHasProdutoDAO estoqueHasProdutoDAO = new EstoqueHasProdutoDAO();
+        HashMap<Integer, Integer> estoqueHasProduto = EstoqueHasProdutoDAO.selectAhasP();
 
         //Finding PK == FK
         ArrayList<Integer> pkProdutos = new ArrayList<>();
-        for (int i : armazemHasProduto.keySet()) {
-            if(i == armazemEscolhido.getIdArmazem()){
-                pkProdutos.add(armazemHasProduto.get(i));
+        for (int i : EstoqueHasProduto.keySet()) {
+            if(i == estoqueEscolhido.getIdEstoque()){
+                pkProdutos.add(EstoqueHasProduto.get(i));
             }
         }
 
         //Selecting products from this specific storage
         ProdutoDAO produtoDAO = new ProdutoDAO();
         ArrayList<Produto> produtos = produtoDAO.selectProduto();
-        ArrayList<Produto> produtosArmazem = new ArrayList<>();
+        ArrayList<Produto> produtosEstoque = new ArrayList<>();
+
         //Picking the products up from this storage
-        for (int i = 0; i < pkProdutos.size(); i++) {
-            if(produtos.get(i).getIdProduto() == pkProdutos.get(i)){
-                produtosArmazem.add(produtos.get(i));
+        for (int i = 0; i < produtos.size(); i++) {
+            try {
+                if(produtos.get(i).getIdProduto() == pkProdutos.get(i)){
+                    produtosEstoque.add(produtos.get(i));
+                }
+            }
+            catch(IndexOutOfBoundsException e){
+                e.printStackTrace();
             }
         }
         
@@ -419,7 +446,7 @@ public class UI {
        
        //Header
        String header[] = new String[] { 
-        "ID Produto", "Nome", "Categoria", "Peso", "Quantidade"
+        "ID Produto", "Nome", "Categoria", "Peso"
         };
        
        //Adding header on Table Model
@@ -428,9 +455,40 @@ public class UI {
             tabelaProdutos.setModel(dtm);
        
        //Adding data dinamically to table
-       for (int i = 0; i < produtosArmazem.size(); i ++) {
+       for (int i = 0; i < produtosEstoque.size(); i ++) {
                dtm.addRow(new Object[] { 
-                    produtosArmazem.get(i).getIdProduto(), produtosArmazem.get(i).getNome(), produtosArmazem.get(i).getCategoria(), produtosArmazem.get(i).getPeso(), produtosArmazem.get(i).getQuantidade()
+                    produtosEstoque.get(i).getIdProduto(), produtosEstoque.get(i).getNome(), produtosEstoque.get(i).getCategoria(), produtosEstoque.get(i).getPeso()
+                });
+        }
+        JOptionPane.showMessageDialog(null, new JScrollPane(tabelaProdutos));
+    }
+
+    
+    private void vizualizarTodosProdutos(){
+        ArrayList<Produto> produtos = new ArrayList<>();
+
+        //Selecting all products
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtos = produtoDAO.selectProduto();
+
+        //Displaying data from this storage using JTable
+        JTable tabelaProdutos = new JTable();
+        DefaultTableModel dtm = new DefaultTableModel(0, 0);
+       
+       //Header
+       String header[] = new String[] { 
+        "ID Produto", "Nome", "Categoria", "Peso(g)"
+        };
+       
+       //Adding header on Table Model
+        dtm.setColumnIdentifiers(header);
+            //set model into the table object
+            tabelaProdutos.setModel(dtm);
+       
+       //Adding data dinamically to table
+       for (int i = 0; i < produtos.size(); i ++) {
+               dtm.addRow(new Object[] { 
+                    produtos.get(i).getIdProduto(), produtos.get(i).getNome(), produtos.get(i).getCategoria(), produtos.get(i).getPeso(), produtos.get(i).getQuantidade()
                 });
         }
         JOptionPane.showMessageDialog(null, new JScrollPane(tabelaProdutos));
