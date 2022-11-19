@@ -12,17 +12,29 @@ public class EstoqueHasProduto {
      */
     private int idEstoque;
     private int idProduto;
+    private int quantidade;
 
     /**
-     * Constructor and Getters & Setters
+     * Constructor
      */
-    public EstoqueHasProduto(){
+    public EstoqueHasProduto(int idEstoque, int idProduto, int quantidade){
+        this.idEstoque = idEstoque;
+        this.idProduto = idProduto;
+        this.quantidade = quantidade;
     }
 
+    //Getters
+    /**
+     * Getters
+     * @return attributes from EstoqueHasProduto
+     */
     public int getIdEstoque(){
         return idEstoque;
     }
     public int getIdProduto(){
         return idProduto;
+    }
+    public int getQuantidade(){
+        return quantidade;
     }
 }

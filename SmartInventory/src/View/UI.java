@@ -303,10 +303,14 @@ public class UI {
         String categoriaProduto = JOptionPane.showInputDialog("Insira a categoria do produto: ");
 
         //Send data to DAO
-        Produto produto = new Produto(IdProduto, nomeProduto, categoriaProduto, pesoProduto, 0);
+        Produto produto = new Produto(IdProduto, nomeProduto, categoriaProduto, pesoProduto);
         ProdutoDAO produtoDAO = new ProdutoDAO();
 
-        produtoDAO.createProduto(produto);
+        boolean success = produtoDAO.createProduto(produto);
+        if(success)
+            JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(null, "Cadastro não concluído","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
 
     //Inserting inventory to a product in that storage
@@ -323,22 +327,33 @@ public class UI {
         String categoriaProduto = JOptionPane.showInputDialog("Insira a nova categoria do produto");
 
         //Send data to DAO
-        Produto produto = new Produto(IdProduto, nomeProduto, categoriaProduto, pesoProduto, 0);
+        Produto produto = new Produto(IdProduto, nomeProduto, categoriaProduto, pesoProduto);
         ProdutoDAO produtoDAO = new ProdutoDAO();
 
-        produtoDAO.updateProduto(produto);
+        boolean success = produtoDAO.updateProduto(produto);
+        if(success)
+            JOptionPane.showMessageDialog(null, "Produto editado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
 
     private void editarEstoqueProduto(){
         //User input
+        String idProdutoString = JOptionPane.showInputDialog("Insira o ID do produto a inserir estoque");
+        int idProduto = Integer.parseInt(idProdutoString);
+        String idEstoqueProdutoString = JOptionPane.showInputDialog("Insira o ID do local que será inserido a quantidade");
+        int idEstoqueProduto = Integer.parseInt(idEstoqueProdutoString);
         String quantidadeString = JOptionPane.showInputDialog("Insira a quantidade desse produto");
         int quantidade = Integer.parseInt(quantidadeString);
-        String idEstoqueProdutoString = JOptionPane.showInputDialog("Insira o ID do Estoque que esta o estoque");
-        int idEstoqueProduto = Integer.parseInt(idEstoqueProdutoString);
 
         //Send data to DAO
-        InserirEstoque inserirEstoque = new InserirEstoque();
-        
+        EstoqueHasProduto estoqueHasProduto = new EstoqueHasProduto(idEstoqueProduto, idProduto, quantidade);
+        EstoqueHasProdutoDAO estoqueHasProdutoDAO = new EstoqueHasProdutoDAO();
+        boolean success = estoqueHasProdutoDAO.createAhasP(estoqueHasProduto);
+        if(success)
+            JOptionPane.showMessageDialog(null, "Estoque adicionado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(null, "Inserção não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
 
     /**
@@ -351,7 +366,11 @@ public class UI {
 
         //Send data to DAO
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        produtoDAO.deleteProduto(IdProduto);
+        boolean success = produtoDAO.deleteProduto(IdProduto);
+        if(success)
+            JOptionPane.showMessageDialog(null, "Produto removido com sucesso!");
+        else
+            JOptionPane.showMessageDialog(null, "Exclusão não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
 
     //Storages drop-down list
@@ -387,7 +406,7 @@ public class UI {
         //Getting employees number from that storage
         int nFuncionariosEstoque = 0;
         for (int i = 0; i < funcionarios.size(); i++) {
-            if(funcionarios.get(i).getIDEstoque() == EstoqueAux.getIdEstoque()){
+            if(funcionarios.get(i).getIdEstoque() == EstoqueAux.getIdEstoque()){
                 nFuncionariosEstoque ++;
             }
         }
@@ -410,16 +429,20 @@ public class UI {
     /**
      * UI for displaying products from some storage
      */
-    private void visualizarProdutosEstoque(Estoque EstoqueEscolhido){
+    private void visualizarProdutosEstoque(Estoque estoqueEscolhido){
         //Generating auxliar DAO instances for SELECT
         EstoqueHasProdutoDAO estoqueHasProdutoDAO = new EstoqueHasProdutoDAO();
-        HashMap<Integer, Integer> estoqueHasProduto = EstoqueHasProdutoDAO.selectAhasP();
+        ArrayList<EstoqueHasProduto> estoqueHasProduto = estoqueHasProdutoDAO.selectAhasP();
 
         //Finding PK == FK
+        //ArrayList containing ID and product amount from selected storage
         ArrayList<Integer> pkProdutos = new ArrayList<>();
-        for (int i : EstoqueHasProduto.keySet()) {
-            if(i == estoqueEscolhido.getIdEstoque()){
-                pkProdutos.add(EstoqueHasProduto.get(i));
+        ArrayList<Integer> quantidadeProdutos = new ArrayList<>();
+
+        for (int i = 0; i < estoqueHasProduto.size(); i ++) {
+            if(estoqueHasProduto.get(i).getIdEstoque() == estoqueEscolhido.getIdEstoque()){
+                pkProdutos.add(estoqueHasProduto.get(i).getIdProduto());
+                quantidadeProdutos.add(estoqueHasProduto.get(i).getQuantidade());
             }
         }
 
@@ -427,16 +450,20 @@ public class UI {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         ArrayList<Produto> produtos = produtoDAO.selectProduto();
         ArrayList<Produto> produtosEstoque = new ArrayList<>();
+        ArrayList<Integer> quantidadeProdutoEstoque = new ArrayList<>();
 
         //Picking the products up from this storage
         for (int i = 0; i < produtos.size(); i++) {
-            try {
-                if(produtos.get(i).getIdProduto() == pkProdutos.get(i)){
-                    produtosEstoque.add(produtos.get(i));
+            for(int j = 0; j < pkProdutos.size(); j ++){
+                try {
+                    if(produtos.get(i).getIdProduto() == pkProdutos.get(j)){
+                        produtosEstoque.add(produtos.get(i));
+                        quantidadeProdutoEstoque.add(quantidadeProdutos.get(j));
+                    }
                 }
-            }
-            catch(IndexOutOfBoundsException e){
-                e.printStackTrace();
+                catch(IndexOutOfBoundsException e){
+                    e.printStackTrace();
+                }
             }
         }
         
@@ -446,7 +473,7 @@ public class UI {
        
        //Header
        String header[] = new String[] { 
-        "ID Produto", "Nome", "Categoria", "Peso"
+        "ID Produto", "Nome", "Categoria", "Peso", "Quantidade"
         };
        
        //Adding header on Table Model
@@ -456,9 +483,9 @@ public class UI {
        
        //Adding data dinamically to table
        for (int i = 0; i < produtosEstoque.size(); i ++) {
-               dtm.addRow(new Object[] { 
-                    produtosEstoque.get(i).getIdProduto(), produtosEstoque.get(i).getNome(), produtosEstoque.get(i).getCategoria(), produtosEstoque.get(i).getPeso()
-                });
+            dtm.addRow(new Object[] { 
+                produtosEstoque.get(i).getIdProduto(), produtosEstoque.get(i).getNome(), produtosEstoque.get(i).getCategoria(), produtosEstoque.get(i).getPeso(), quantidadeProdutoEstoque.get(i)
+            });
         }
         JOptionPane.showMessageDialog(null, new JScrollPane(tabelaProdutos));
     }
@@ -471,13 +498,33 @@ public class UI {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         produtos = produtoDAO.selectProduto();
 
+        //Catching amount from that product from all storages
+        //ArrayList with inventory amount from each product ID
+        ArrayList<Integer> estoqueTotal = new ArrayList<>();
+        EstoqueHasProdutoDAO estoqueHasProdutoDAO = new EstoqueHasProdutoDAO();
+        ArrayList<EstoqueHasProduto> estoqueHasProduto = estoqueHasProdutoDAO.selectAhasP();
+
+        //Iterating through Intermediate table and Products table
+        for (int i = 0; i < estoqueHasProduto.size(); i++) {
+            for (int k = 0; k < produtos.size(); k++) {
+                try{
+                    if(estoqueHasProduto.get(i).getIdProduto() == produtos.get(k).getIdProduto()){
+                        estoqueTotal.add(k, estoqueHasProduto.get(i).getQuantidade());
+                    }
+                }
+                catch(IndexOutOfBoundsException e){
+                    
+                }
+            }
+        }
+
         //Displaying data from this storage using JTable
         JTable tabelaProdutos = new JTable();
         DefaultTableModel dtm = new DefaultTableModel(0, 0);
        
        //Header
        String header[] = new String[] { 
-        "ID Produto", "Nome", "Categoria", "Peso(g)"
+        "ID Produto", "Nome", "Categoria", "Peso(g)", "Quantidade Total"
         };
        
        //Adding header on Table Model
@@ -488,7 +535,7 @@ public class UI {
        //Adding data dinamically to table
        for (int i = 0; i < produtos.size(); i ++) {
                dtm.addRow(new Object[] { 
-                    produtos.get(i).getIdProduto(), produtos.get(i).getNome(), produtos.get(i).getCategoria(), produtos.get(i).getPeso(), produtos.get(i).getQuantidade()
+                    produtos.get(i).getIdProduto(), produtos.get(i).getNome(), produtos.get(i).getCategoria(), produtos.get(i).getPeso(), estoqueTotal.get(i)
                 });
         }
         JOptionPane.showMessageDialog(null, new JScrollPane(tabelaProdutos));

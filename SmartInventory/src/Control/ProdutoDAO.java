@@ -1,7 +1,7 @@
 package Control;
 
 import Model.Produto;
-import Model.ArmazemHasProduto;
+import Model.EstoqueHasProduto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -85,47 +85,6 @@ public class ProdutoDAO extends ConnectionDAO{
         return sucesso;
     }
 
-    /**
-     * Function overloading
-     * This one represents the product inventory amount update
-     * @param id product ID to be updated
-     * @param quantidade new product amount
-     * @return a boolean value, indicating if the operation was successful
-     */
-    public boolean updateProduto(int id, int quantidade, int idArmazem){
-        connectToDB();
-        String sql1 = "UPDATE Produto SET quantidade=? where idProduto=?";
-
-        //modify product inventory amount
-        try {
-            pst = con.prepareStatement(sql1);
-            pst.setInt(1, quantidade);
-            pst.setInt(2, id);
-            pst.execute();
-            sucesso = true;
-        } catch (SQLException ex) {
-            System.out.println("Erro = " + ex.getMessage());
-            sucesso = false;
-        } finally {
-            try {
-                con.close();
-                pst.close();
-            } catch (SQLException exc) {
-                System.out.println("Erro: " + exc.getMessage());
-            }
-        }
-
-        //updating intermediate table
-        ArmazemHasProduto armazemHasProduto = new ArmazemHasProduto();
-        EstoqueHasProdutoDAO armazemHasProdutoDAO = new EstoqueHasProdutoDAO();
-
-        armazemHasProduto.setIdArmazem(idArmazem);
-        armazemHasProduto.setIdProduto(id);
-        armazemHasProdutoDAO.createAhasP(armazemHasProduto);
-
-        return sucesso;
-    }
-
     //DELETE
     /**
      * Function for deleting Product itens
@@ -172,14 +131,13 @@ public class ProdutoDAO extends ConnectionDAO{
 
             while (rs.next()) {
 
-                Produto produtoAux = new Produto(rs.getInt("idProduto"), rs.getString("nome"), rs.getString("categoria"), rs.getInt("peso"), rs.getInt("quantidade"));
+                Produto produtoAux = new Produto(rs.getInt("idProduto"), rs.getString("nome"), rs.getString("categoria"), rs.getInt("peso"));
                 
                 //Retirar print e enviar dados para UI
                 System.out.println("ID = " + produtoAux.getIdProduto());
                 System.out.println("Nome = " + produtoAux.getNome());
                 System.out.println("Categoria = " + produtoAux.getCategoria());
                 System.out.println("Peso = " + produtoAux.getPeso() + "g");
-                System.out.println("Quantidade = " + produtoAux.getQuantidade());
 
                 System.out.println("--------------------------------");
 

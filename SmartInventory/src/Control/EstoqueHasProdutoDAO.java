@@ -2,6 +2,7 @@ package Control;
 
 import Model.EstoqueHasProduto;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,15 +19,16 @@ public class EstoqueHasProdutoDAO extends ConnectionDAO{
      * Function for inserting values into table Estoque_has_Produto
      * @param EstoqueHasProduto receives a EstoqueHasProduto object
      */
-    public void createAhasP(EstoqueHasProduto EstoqueHasProduto) {
+    public boolean createAhasP(EstoqueHasProduto estoqueHasProduto) {
         connectToDB();
 
-        String sqlAhasP = "INSERT INTO Estoque_has_Produto (Estoque_idEstoque, Produto_idProduto) VALUES (?, ?)";
+        String sqlAhasP = "INSERT INTO Estoque_has_Produto (Estoque_idEstoque, Produto_idProduto, quantidade) VALUES (?, ?, ?)";
         try {
             //Tabela Produto
             pst = con.prepareStatement(sqlAhasP);
-            pst.setInt(1, EstoqueHasProduto.getIdEstoque());
-            pst.setInt(2, EstoqueHasProduto.getIdProduto());
+            pst.setInt(1, estoqueHasProduto.getIdEstoque());
+            pst.setInt(2, estoqueHasProduto.getIdProduto());
+            pst.setInt(3, estoqueHasProduto.getQuantidade());
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -40,33 +42,35 @@ public class EstoqueHasProdutoDAO extends ConnectionDAO{
                 System.out.println("Erro: " + exc.getMessage());
             }
         }
+        return sucesso;
     }
 
     /**
     * Function for selecting all values from table Estoque_has_Produto
     * @return a HashMap which elements cointain a Key-Value pair representing idEstoque and idProduto respectively
     */
-    public HashMap<Integer, Integer> selectAhasP(){
-        HashMap<Integer, Integer> aHasProdutos = new HashMap<>();
+    public ArrayList<EstoqueHasProduto> selectAhasP(){
         connectToDB();
+
+        ArrayList<EstoqueHasProduto> estoqueHasProduto = new ArrayList<>();
+
         String sql = "SELECT * FROM Estoque_has_Produto";
         try {
             st = con.createStatement();
             rs = st.executeQuery(sql);
 
-            System.out.println("Lista de relações Produtos X Armazens: ");
+            System.out.println("Lista de quantidades Produtos X Estoque: ");
 
             while (rs.next()) {
-                EstoqueHasProduto aHasProdutoAux = new EstoqueHasProduto();
-                aHasProdutoAux.setIdEstoque(rs.getInt("Estoque_idEstoque"));
-                aHasProdutoAux.setIdProduto(rs.getInt("Produto_idProduto"));
+                EstoqueHasProduto eHasProdutoAux = new EstoqueHasProduto(rs.getInt("Estoque_idEstoque"), rs.getInt("Produto_idProduto"), rs.getInt("quantidade"));
 
-                System.out.println("ID Estoque = " + aHasProdutoAux.getIdEstoque());
-                System.out.println("ID Produto = " + aHasProdutoAux.getIdProduto());
+                System.out.println("ID Estoque = " + eHasProdutoAux.getIdEstoque());
+                System.out.println("ID Produto = " + eHasProdutoAux.getIdProduto());
+                System.out.println("Quantidade = " + eHasProdutoAux.getIdProduto());
 
                 System.out.println("--------------------------------");
 
-                aHasProdutos.put(aHasProdutoAux.getIdEstoque(), aHasProdutoAux.getIdProduto());
+                estoqueHasProduto.add(eHasProdutoAux);
             }
             sucesso = true;
         } catch (SQLException e) {
@@ -80,7 +84,7 @@ public class EstoqueHasProdutoDAO extends ConnectionDAO{
                 System.out.println("Erro: " + e.getMessage());
             }
         }
-        return aHasProdutos;
+        return estoqueHasProduto;
     }
 
     //UPDATE
