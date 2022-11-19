@@ -292,9 +292,9 @@ public class UI {
      */
     private void cadastrarProduto(){
         //User input
-        String nomeProduto = JOptionPane.showInputDialog("Insira o nome do produto: ");
         String IdProdutoString = JOptionPane.showInputDialog("Insira o ID do produto: ");
         int IdProduto = Integer.parseInt(IdProdutoString);
+        String nomeProduto = JOptionPane.showInputDialog("Insira o nome do produto: ");
         String pesoString = JOptionPane.showInputDialog("Insira o peso do produto: ");
         int pesoProduto = Integer.parseInt(pesoString);
         String categoriaProduto = JOptionPane.showInputDialog("Insira a categoria do produto: ");
