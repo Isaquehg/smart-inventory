@@ -94,14 +94,15 @@ public class EstoqueHasProdutoDAO extends ConnectionDAO{
      * @param idEstoque is the ID in which the product is in
      * @return a boolean value representing the operation status
      */
-    public boolean updateAhasP(int idProduto, int idEstoque) {
+    public boolean updateAhasP(EstoqueHasProduto estoqueHasProduto) {
         connectToDB();
-        String sql1 = "UPDATE Estoque_has_Produto SET Estoque_idEstoque=? where Produto_idProduto=?";
+        String sql1 = "UPDATE Estoque_has_Produto SET quantidade=? where Produto_idProduto=? AND Estoque_idEstoque=?";
         //Changing inventory values
         try {
             pst = con.prepareStatement(sql1);
-            pst.setInt(1, idEstoque);
-            pst.setInt(2, idProduto);
+            pst.setInt(1, estoqueHasProduto.getQuantidade());
+            pst.setInt(2, estoqueHasProduto.getIdProduto());
+            pst.setInt(3, estoqueHasProduto.getIdEstoque());
             pst.execute();
             sucesso = true;
         } catch (SQLException ex) {

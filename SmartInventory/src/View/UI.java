@@ -64,13 +64,16 @@ public class UI {
                     editarEstoque();
                 }
                 else if(op2 == 3){
-                    String op3String = JOptionPane.showInputDialog("Você deseja cadastrar um novo produto ou inserir estoque? 1 - Editar dados de cadastro  2 - Alterar estoque");
+                    String op3String = JOptionPane.showInputDialog("1 - Editar dados de cadastro  2 - Adicionar estoque  3 - Editar estoque de um produto");
                     int op3 = Integer.parseInt(op3String);    
                     if(op3 == 1){
                         editarProduto();
                     }
                     else if(op3 == 2){
-                        editarEstoqueProduto();
+                        adicionarEstoqueProduto();
+                    }
+                    else if(op3 == 3){
+                        modificarEstoqueProduto();
                     }
                 }
                 else if(op2 == 4){
@@ -335,9 +338,9 @@ public class UI {
     }
 
     /**
-     * UI for editing product amount from some storage
+     * UI for inserting product amount to some storage
      */
-    private void editarEstoqueProduto(){
+    private void adicionarEstoqueProduto(){
         //User input
         String idProdutoString = JOptionPane.showInputDialog("Insira o ID do produto a inserir estoque");
         int idProduto = Integer.parseInt(idProdutoString);
@@ -354,6 +357,29 @@ public class UI {
             JOptionPane.showMessageDialog(null, "Estoque adicionado com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Inserção não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
+    }
+
+    /**
+     * UI for editing inventory amount of a specific storage
+     */
+    private void modificarEstoqueProduto(){
+        //User input
+        String idProdutoString = JOptionPane.showInputDialog("Insira o ID do produto a modificar estoque");
+        int idProduto = Integer.parseInt(idProdutoString);
+        String idEstoqueProdutoString = JOptionPane.showInputDialog("Insira o ID do local que será modificada a quantidade");
+        int idEstoqueProduto = Integer.parseInt(idEstoqueProdutoString);
+        String quantidadeString = JOptionPane.showInputDialog("Insira a nova quantidade desse produto");
+        int quantidade = Integer.parseInt(quantidadeString);
+
+        //Send data to DAO
+        EstoqueHasProdutoDAO estoqueHasProdutoDAO = new EstoqueHasProdutoDAO();
+        EstoqueHasProduto estoqueHasProduto = new EstoqueHasProduto(idEstoqueProduto, idProduto, quantidade);
+        boolean success = estoqueHasProdutoDAO.updateAhasP(estoqueHasProduto);
+        if(success)
+            JOptionPane.showMessageDialog(null, "Estoque modificado com sucesso!");
+        else
+            JOptionPane.showMessageDialog(null, "Modificação não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
+
     }
 
     /**

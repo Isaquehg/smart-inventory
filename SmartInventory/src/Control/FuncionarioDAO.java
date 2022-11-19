@@ -87,7 +87,7 @@ public class FuncionarioDAO extends ConnectionDAO{
      */
     public boolean deleteFuncionario(int id) {
         connectToDB();
-        String sql = "DELETE FROM Funcionario where id=?";
+        String sql = "DELETE FROM Funcionario where idFuncionario=?";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1, id);
