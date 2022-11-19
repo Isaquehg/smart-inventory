@@ -16,7 +16,7 @@ public class Funcionario {
     private int idEstoque;
 
     /**
-     * Constructor and Getters & Setters
+     * Constructor and Getters
     */
     public Funcionario(int idFuncionario, String nome, String cpf, int idEstoque){
         this.idFuncionario = idFuncionario;

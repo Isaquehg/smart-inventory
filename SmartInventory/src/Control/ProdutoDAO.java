@@ -18,7 +18,6 @@ public class ProdutoDAO extends ConnectionDAO{
     //INSERT
     /** Function for inserting elements into Produto table
      * @param produto is a Produto object
-     * @param armazemHasProduto is the ArmazemHasProduto object
      * @return a boolean value, indicating if the operation was successful
      */
     public boolean createProduto(Produto produto) {
@@ -54,7 +53,6 @@ public class ProdutoDAO extends ConnectionDAO{
      * Function for updating Product registration data from table values
      * This one is not used for changing product inventory amount
      * @param produto Produto object containing new values
-     * @param idArmazem integer representing the storage the product is
      * @return a boolean value, indicating if the operation was successful
      */
     public boolean updateProduto(Produto produto) {

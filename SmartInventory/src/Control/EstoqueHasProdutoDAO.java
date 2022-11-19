@@ -46,7 +46,7 @@ public class EstoqueHasProdutoDAO extends ConnectionDAO{
 
     /**
     * Function for selecting all values from table Estoque_has_Produto
-    * @return a HashMap which elements cointain a Key-Value pair representing idEstoque and idProduto respectively
+    * @return a ArrayList representing idEstoque, idProduto and inventory amount from intermediate table
     */
     public ArrayList<EstoqueHasProduto> selectAhasP(){
         connectToDB();
