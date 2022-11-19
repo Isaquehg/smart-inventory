@@ -334,6 +334,9 @@ public class UI {
             JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
 
+    /**
+     * UI for editing product amount from some storage
+     */
     private void editarEstoqueProduto(){
         //User input
         String idProdutoString = JOptionPane.showInputDialog("Insira o ID do produto a inserir estoque");
@@ -446,6 +449,8 @@ public class UI {
         //Selecting products from this specific storage
         ProdutoDAO produtoDAO = new ProdutoDAO();
         ArrayList<Produto> produtos = produtoDAO.selectProduto();
+
+        //ArrayLists for storing data from intermediate table
         ArrayList<Produto> produtosEstoque = new ArrayList<>();
         ArrayList<Integer> quantidadeProdutoEstoque = new ArrayList<>();
 
@@ -488,6 +493,9 @@ public class UI {
     }
 
     
+    /**
+     * Displaying all products and its total amount
+     */
     private void vizualizarTodosProdutos(){
         ArrayList<Produto> produtos = new ArrayList<>();
 
@@ -510,7 +518,7 @@ public class UI {
                     }
                 }
                 catch(IndexOutOfBoundsException e){
-                    
+                    e.printStackTrace();
                 }
             }
         }
@@ -530,11 +538,17 @@ public class UI {
             tabelaProdutos.setModel(dtm);
        
        //Adding data dinamically to table
-       for (int i = 0; i < produtos.size(); i ++) {
-               dtm.addRow(new Object[] { 
+       try{
+            for (int i = 0; i < produtos.size(); i ++) {
+                dtm.addRow(new Object[] { 
                     produtos.get(i).getIdProduto(), produtos.get(i).getNome(), produtos.get(i).getCategoria(), produtos.get(i).getPeso(), estoqueTotal.get(i)
                 });
-        }
+            }
+       }
+       catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+       }
+            
         JOptionPane.showMessageDialog(null, new JScrollPane(tabelaProdutos));
     }
 }
