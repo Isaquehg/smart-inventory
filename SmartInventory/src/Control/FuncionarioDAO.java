@@ -25,13 +25,13 @@ public class FuncionarioDAO extends ConnectionDAO{
         //Initial DB connection
         connectToDB();
 
-        String sql = "INSERT INTO Funcionario (idFuncionario, nome, cpf, Armazem_idArmazem) values(?, ?, ?, ?)";
+        String sql = "INSERT INTO Funcionario (idFuncionario, nome, cpf, Estoque_idEstoque) values(?, ?, ?, ?)";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1, funcionario.getIdFuncionario());
             pst.setString(2, funcionario.getNome());
             pst.setString(3, funcionario.getCpf());
-            pst.setInt(4, funcionario.getIDArmazem());
+            pst.setInt(4, funcionario.getIdEstoque());
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -56,12 +56,12 @@ public class FuncionarioDAO extends ConnectionDAO{
      */
     public boolean updateFuncionario(Funcionario funcionario) {
         connectToDB();
-        String sql1 = "UPDATE Funcionario SET nome=?, cpf=?, Armazem_idArmazem=? where idFuncionario=?";
+        String sql1 = "UPDATE Funcionario SET nome=?, cpf=?, Estoque_idEstoque=? where idFuncionario=?";
         try {
             pst = con.prepareStatement(sql1);
             pst.setString(1, funcionario.getNome());
             pst.setString(2, funcionario.getCpf());
-            pst.setInt(3, funcionario.getIDArmazem());
+            pst.setInt(3, funcionario.getIdEstoque());
             pst.setInt(4, funcionario.getIdFuncionario());
             pst.execute();
             sucesso = true;
@@ -125,13 +125,13 @@ public class FuncionarioDAO extends ConnectionDAO{
 
             while (rs.next()) {
 
-                Funcionario funcionarioAux = new Funcionario(rs.getInt("idFuncionario"), rs.getString("nome"), rs.getString("cpf"), rs.getInt("Armazem_idArmazem"));
+                Funcionario funcionarioAux = new Funcionario(rs.getInt("idFuncionario"), rs.getString("nome"), rs.getString("cpf"), rs.getInt("Estoque_idEstoque"));
 
                 //Passar print para UI
                 System.out.println("ID = " + funcionarioAux.getIdFuncionario());
                 System.out.println("Nome = " + funcionarioAux.getNome());
                 System.out.println("CPF = " + funcionarioAux.getCpf());
-                System.out.println("ID Armazem = " + funcionarioAux.getIDArmazem());
+                System.out.println("ID Estoque = " + funcionarioAux.getIdEstoque());
 
                 System.out.println("--------------------------------");
 

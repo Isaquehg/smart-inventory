@@ -23,15 +23,15 @@ public class EstoqueDAO extends ConnectionDAO{
      * @param EstoqueHasProduto receives a EstoqueHasProduto object, which is a intermediate table
      * @return a boolean value, indicating if the operation was successful
      */
-    public boolean createEstoque(Estoque Estoque) {
+    public boolean createEstoque(Estoque estoque) {
         connectToDB();
 
         String sql = "INSERT INTO Estoque (idEstoque, endereco, Proprietario_idProprietario) values(?, ?, ?)";
         try {
             pst = con.prepareStatement(sql);
-            pst.setInt(1, Estoque.getIdEstoque());
-            pst.setString(2, Estoque.getEndereco());
-            pst.setInt(3, Estoque.getIdProprietario());
+            pst.setInt(1, estoque.getIdEstoque());
+            pst.setString(2, estoque.getEndereco());
+            pst.setInt(3, estoque.getIdProprietario());
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -54,15 +54,15 @@ public class EstoqueDAO extends ConnectionDAO{
      * @param Estoque receives a Estoque object
      * @return a boolean value, indicating if the operation was successful
      */
-    public boolean updateEstoque(Estoque Estoque) {
+    public boolean updateEstoque(Estoque estoque) {
         connectToDB();
         String sql1 = "UPDATE Estoque SET endereco=?, Proprietario_idProprietario=? where idEstoque=?";
         //alterar estoque
         try {
             pst = con.prepareStatement(sql1);
-            pst.setString(1, Estoque.getEndereco());
-            pst.setInt(2, Estoque.getIdProprietario());
-            pst.setInt(3, Estoque.getIdEstoque());
+            pst.setString(1, estoque.getEndereco());
+            pst.setInt(2, estoque.getIdProprietario());
+            pst.setInt(3, estoque.getIdEstoque());
             pst.execute();
             sucesso = true;
         } catch (SQLException ex) {

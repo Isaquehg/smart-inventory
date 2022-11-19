@@ -1,40 +1,28 @@
--- Smart Inventory
+-- Smart_Inventory
 -- -----------------------------------------------------
--- Schema smart_inventory
+-- Schema mydb
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `smart_inventory` DEFAULT CHARACTER SET utf8 ;
 USE `smart_inventory` ;
 
 -- -----------------------------------------------------
--- Table `smart_inventory`.`Produto`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `smart_inventory`.`Produto` (
-  `idProduto` INT NOT NULL,
-  `nome` VARCHAR(45) NOT NULL,
-  `categoria` VARCHAR(45) NOT NULL,
-  `peso` INT NOT NULL,
-  `quantidade` INT NOT NULL,
-  PRIMARY KEY (`idProduto`)
-);
-
--- -----------------------------------------------------
 -- Table `smart_inventory`.`Proprietario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `smart_inventory`.`Proprietario` (
-  `idProprietario` INT NOT NULL,
+  `idProprietario` INT NOT NULL auto_increment,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idProprietario`)
 );
 
 -- -----------------------------------------------------
--- Table `smart_inventory`.`Armazem`
+-- Table `smart_inventory`.`Estoque`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `smart_inventory`.`Armazem` (
-  `idArmazem` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `smart_inventory`.`Estoque` (
+  `idEstoque` INT NOT NULL auto_increment,
   `endereco` VARCHAR(45) NOT NULL,
   `Proprietario_idProprietario` INT NOT NULL,
-  PRIMARY KEY (`idArmazem`),
-  CONSTRAINT `fk_Armazem_Proprietario1`
+  PRIMARY KEY (`idEstoque`),
+  CONSTRAINT `fk_Estoque_Proprietario1`
     FOREIGN KEY (`Proprietario_idProprietario`)
     REFERENCES `smart_inventory`.`Proprietario` (`idProprietario`)
     ON DELETE NO ACTION
@@ -45,33 +33,45 @@ CREATE TABLE IF NOT EXISTS `smart_inventory`.`Armazem` (
 -- Table `smart_inventory`.`Funcionario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `smart_inventory`.`Funcionario` (
-  `idFuncionario` INT NOT NULL,
-  `nome` VARCHAR(45) NOT NULL,
-  `cpf` VARCHAR(45) NOT NULL,
-  `Armazem_idArmazem` INT NOT NULL,
+  `idFuncionario` INT NOT NULL auto_increment,
+  `nome` VARCHAR(45) NULL,
+  `cpf` VARCHAR(45) NULL,
+  `Estoque_idEstoque` INT NOT NULL,
   PRIMARY KEY (`idFuncionario`),
-  CONSTRAINT `fk_Funcionario_Armazem1`
-    FOREIGN KEY (`Armazem_idArmazem`)
-    REFERENCES `smart_inventory`.`Armazem` (`idArmazem`)
+  CONSTRAINT `fk_Funcionario_Estoque`
+    FOREIGN KEY (`Estoque_idEstoque`)
+    REFERENCES `smart_inventory`.`Estoque` (`idEstoque`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+    ON UPDATE CASCADE
 );
 
 -- -----------------------------------------------------
--- Table `smart_inventory`.`Armazem_has_Produto`
+-- Table `smart_inventory`.`Produto`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `smart_inventory`.`Armazem_has_Produto` (
-  `Armazem_idArmazem` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `smart_inventory`.`Produto` (
+  `idProduto` INT NOT NULL auto_increment,
+  `nome` VARCHAR(45) NOT NULL,
+  `peso` VARCHAR(45) NOT NULL,
+  `categoria` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idProduto`)
+);
+
+-- -----------------------------------------------------
+-- Table `smart_inventory`.`Estoque_has_Produto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `smart_inventory`.`Estoque_has_Produto` (
+  `Estoque_idEstoque` INT NOT NULL,
   `Produto_idProduto` INT NOT NULL,
-  PRIMARY KEY (`Armazem_idArmazem`, `Produto_idProduto`),
-  CONSTRAINT `fk_Armazem_has_Produto_Armazem1`
-    FOREIGN KEY (`Armazem_idArmazem`)
-    REFERENCES `smart_inventory`.`Armazem` (`idArmazem`)
+  `quantidade` INT NOT NULL,
+  PRIMARY KEY (`Estoque_idEstoque`, `Produto_idProduto`),
+  CONSTRAINT `fk_Estoque_has_Produto_Estoque1`
+    FOREIGN KEY (`Estoque_idEstoque`)
+    REFERENCES `smart_inventory`.`Estoque` (`idEstoque`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_Armazem_has_Produto_Produto1`
+  CONSTRAINT `fk_Estoque_has_Produto_Produto1`
     FOREIGN KEY (`Produto_idProduto`)
     REFERENCES `smart_inventory`.`Produto` (`idProduto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );

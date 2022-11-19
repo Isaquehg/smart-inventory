@@ -1,7 +1,6 @@
 package View;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import Control.EstoqueDAO;
 import Control.EstoqueHasProdutoDAO;
 import Control.FuncionarioDAO;
-import Control.InserirEstoque;
 import Control.ProdutoDAO;
 import Control.ProprietarioDAO;
 import Model.Estoque;
@@ -117,20 +115,19 @@ public class UI {
      */
     private void cadastrarEstoque(){
         //User input
-        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do armazém");
+        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do estoque");
         int idEstoque = Integer.parseInt(idEstoqueString);
-        String enderecoEstoque = JOptionPane.showInputDialog("Entre com o Endereco do armazém");
-        String idProprietarioEstoqueString = JOptionPane.showInputDialog("Entre com o ID do proprietario do armazém");
+        String enderecoEstoque = JOptionPane.showInputDialog("Entre com o Endereco do estoque");
+        String idProprietarioEstoqueString = JOptionPane.showInputDialog("Entre com o ID do proprietario do estoque");
         int idProprietarioEstoque = Integer.parseInt(idProprietarioEstoqueString);
 
         //Passing data to DAO
-        Estoque Estoque = new Estoque(idEstoque, enderecoEstoque, idProprietarioEstoque);
-        EstoqueDAO EstoqueDAO = new EstoqueDAO();
-        EstoqueHasProduto EstoqueHasProduto = new EstoqueHasProduto();
-        EstoqueHasProduto.setIdEstoque(idEstoque);
-        boolean success = EstoqueDAO.createEstoque(Estoque, EstoqueHasProduto);
+        Estoque estoque = new Estoque(idEstoque, enderecoEstoque, idProprietarioEstoque);
+        EstoqueDAO estoqueDAO = new EstoqueDAO();
+
+        boolean success = estoqueDAO.createEstoque(estoque);
         if(success)
-            JOptionPane.showMessageDialog(null, "Armazém cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Estoque cadastrado com sucesso!");
         else
             JOptionPane.showMessageDialog(null, "Cadastro não concluído","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -140,18 +137,18 @@ public class UI {
      */
     private void editarEstoque(){
         //User input
-        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do armazém a editar");
+        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do estoque a editar");
         int idEstoque = Integer.parseInt(idEstoqueString);
-        String enderecoEstoque = JOptionPane.showInputDialog("Entre com o novo Endereco do armazém");
-        String idProprietarioEstoqueString = JOptionPane.showInputDialog("Entre com o novo ID do proprietario do armazém");
+        String enderecoEstoque = JOptionPane.showInputDialog("Entre com o novo endereco do estoque");
+        String idProprietarioEstoqueString = JOptionPane.showInputDialog("Entre com o novo ID do proprietario do estoque");
         int idProprietarioEstoque = Integer.parseInt(idProprietarioEstoqueString);
 
         //Passing data through DAO
-        Estoque Estoque = new Estoque(idEstoque, enderecoEstoque, idProprietarioEstoque);
+        Estoque estoque = new Estoque(idEstoque, enderecoEstoque, idProprietarioEstoque);
         EstoqueDAO EstoqueDAO = new EstoqueDAO();
-        boolean success = EstoqueDAO.updateEstoque(Estoque);
+        boolean success = EstoqueDAO.updateEstoque(estoque);
         if(success)
-        JOptionPane.showMessageDialog(null, "Armazém editado com sucesso!");
+        JOptionPane.showMessageDialog(null, "Estoque editado com sucesso!");
         else
         JOptionPane.showMessageDialog(null, "Edição não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -161,14 +158,14 @@ public class UI {
      */
     private void deletarEstoque(){
         //User input
-        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do armazém a excluir");
+        String idEstoqueString = JOptionPane.showInputDialog("Entre com o ID do estoque a excluir");
         int idEstoque = Integer.parseInt(idEstoqueString);
 
         //Passing data through DAO
         EstoqueDAO EstoqueDAO = new EstoqueDAO();
         boolean success = EstoqueDAO.deleteEstoque(idEstoque);
         if(success)
-        JOptionPane.showMessageDialog(null, "Armazém excluído com sucesso!");
+        JOptionPane.showMessageDialog(null, "Estoque excluído com sucesso!");
         else
         JOptionPane.showMessageDialog(null, "Exclusão não concluída","Aviso!", JOptionPane.WARNING_MESSAGE);
     }
@@ -238,7 +235,7 @@ public class UI {
         int idFuncionario = Integer.parseInt(idFuncionarioString);
         String nomeFuncionario = JOptionPane.showInputDialog("Entre com o nome do Funcionário");
         String cpfFuncionario = JOptionPane.showInputDialog("Entre com o CPF do Funcionário");
-        String idEstoqueFuncionarioString = JOptionPane.showInputDialog("Entre com o ID do Armazém");
+        String idEstoqueFuncionarioString = JOptionPane.showInputDialog("Entre com o ID do estoque");
         int idEstoqueFuncionario = Integer.parseInt(idEstoqueFuncionarioString);
 
         //Passing data to DAO
@@ -260,7 +257,7 @@ public class UI {
         int idFuncionario = Integer.parseInt(idFuncionarioString);
         String nomeFuncionario = JOptionPane.showInputDialog("Entre com o novo nome do Funcionário");
         String cpfFuncionario = JOptionPane.showInputDialog("Entre com o novo CPF do Funcionário");
-        String idEstoqueFuncionarioString = JOptionPane.showInputDialog("Entre com o novo ID do Armazém");
+        String idEstoqueFuncionarioString = JOptionPane.showInputDialog("Entre com o novo ID do estoque");
         int idEstoqueFuncionario = Integer.parseInt(idEstoqueFuncionarioString);
 
         //Passing data to DAO
@@ -383,23 +380,23 @@ public class UI {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
         //Getting SELECT from DAO
-        ArrayList<Estoque> armazens = EstoqueDAO.selectEstoque();
+        ArrayList<Estoque> estoques = EstoqueDAO.selectEstoque();
         ArrayList<Funcionario> funcionarios = funcionarioDAO.selectFuncionario();
 
         //Searching for storages
         Estoque EstoqueAux = null;
         String[] choices = new String[100];
-        for (int i = 0; i < armazens.size(); i++) {
-            choices[i] = String.valueOf(armazens.get(i).getIdEstoque());
+        for (int i = 0; i < estoques.size(); i++) {
+            choices[i] = String.valueOf(estoques.get(i).getIdEstoque());
         }
 
         //Displaying storages
-        String idEstoqueString = (String) JOptionPane.showInputDialog(null, "Escolha o armazém",
+        String idEstoqueString = (String) JOptionPane.showInputDialog(null, "Escolha o estoque",
             "Visualização", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
         int idEstoqueEscolhido = Integer.parseInt(idEstoqueString);
-        for (int i = 0; i < armazens.size(); i++) {
-            if(idEstoqueEscolhido == armazens.get(i).getIdEstoque()){
-                EstoqueAux = armazens.get(i);
+        for (int i = 0; i < estoques.size(); i++) {
+            if(idEstoqueEscolhido == estoques.get(i).getIdEstoque()){
+                EstoqueAux = estoques.get(i);
             }
         }
 
