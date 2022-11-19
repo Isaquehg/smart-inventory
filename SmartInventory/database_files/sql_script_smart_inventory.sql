@@ -9,7 +9,7 @@ USE `smart_inventory` ;
 -- Table `smart_inventory`.`Proprietario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `smart_inventory`.`Proprietario` (
-  `idProprietario` INT NOT NULL auto_increment,
+  `idProprietario` INT NOT NULL,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idProprietario`)
 );
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `smart_inventory`.`Proprietario` (
 -- Table `smart_inventory`.`Estoque`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `smart_inventory`.`Estoque` (
-  `idEstoque` INT NOT NULL auto_increment,
+  `idEstoque` INT NOT NULL,
   `endereco` VARCHAR(45) NOT NULL,
   `Proprietario_idProprietario` INT NOT NULL,
   PRIMARY KEY (`idEstoque`),
@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS `smart_inventory`.`Estoque` (
 -- Table `smart_inventory`.`Funcionario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `smart_inventory`.`Funcionario` (
-  `idFuncionario` INT NOT NULL auto_increment,
-  `nome` VARCHAR(45) NULL,
-  `cpf` VARCHAR(45) NULL,
+  `idFuncionario` INT NOT NULL,
+  `nome` VARCHAR(45) NOT NULL,
+  `cpf` VARCHAR(45) NOT NULL,
   `Estoque_idEstoque` INT NOT NULL,
   PRIMARY KEY (`idFuncionario`),
   CONSTRAINT `fk_Funcionario_Estoque`
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `smart_inventory`.`Funcionario` (
 -- Table `smart_inventory`.`Produto`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `smart_inventory`.`Produto` (
-  `idProduto` INT NOT NULL auto_increment,
+  `idProduto` INT NOT NULL,
   `nome` VARCHAR(45) NOT NULL,
   `peso` VARCHAR(45) NOT NULL,
   `categoria` VARCHAR(45) NOT NULL,
