@@ -1,7 +1,6 @@
 package Control;
 
 import Model.Produto;
-import Model.EstoqueHasProduto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

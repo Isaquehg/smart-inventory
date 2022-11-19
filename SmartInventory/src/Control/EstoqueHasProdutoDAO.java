@@ -3,7 +3,6 @@ package Control;
 import Model.EstoqueHasProduto;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Class for DAO operations on Estoque_has_Produto table
